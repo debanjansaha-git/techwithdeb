@@ -22,35 +22,29 @@ jobs:
         run: npm install
 
       - name: HTML Validation
-        uses: yusukebe/w3c-html-validator@v2.0
-        with:
-          target: 'posts' # Validate all files in the directory
-          directory: '.' # Validate from the root directory, change if your html files are in another folder
-          verbose: true
-
-      - name: CSS Linting
-        uses: actions/checkout@v3
-      - name: Run stylelint
-        uses: docker://stylelint/stylelint:15.10.3
-        with:
-          args: '**/*.css'
-
-      - name: Broken Link Checker
-        uses: lycheeverse/lychee-action@v1.8.0
-        with:
-          args: .
-
-      - name: Build Website
         run: |
-          echo "Building the website..."
-          # Add your website build commands here. 
-          # For example, if you use a static site generator:
-          # ./your-static-site-generator build 
-          echo "Website build completed."
+          npx vnu-jar --verbose posts/*.html index.html
 
-      - name: Run tests
-        run: |
-          echo "Running tests..."
-          # Add your test commands here.
-          # For example: npm test
-          echo "Tests finished."
+          - name: CSS Linting
+          run: npx stylelint '**/*.css'
+  
+          - name: Broken Link Checker
+            uses: lycheeverse/lychee-action@v1.8.0
+            with:
+              args: '.'
+    
+          - name: Build Website
+            run: |
+              echo "Building the website..."
+              # Replace the following line with your actual build command (e.g., npm run build, or another site generator command)
+              # This example assumes you use a static site generator that outputs to a 'dist' or 'build' directory.
+              # If you do not need to build anything (just serving static pages), remove the line below.
+              npm run build
+              echo "Website build completed."
+            
+          - name: Deploy to GitHub Pages
+            uses: peaceiris/actions-gh-pages@v3
+            if: github.ref == 'refs/heads/main'
+            with:
+              github_token: ${{ secrets.GITHUB_TOKEN }}
+              publish_dir: ./dist # Or ./build, change accordingly to the output dir of your build step
