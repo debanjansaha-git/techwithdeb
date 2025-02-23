@@ -1,0 +1,56 @@
+name: QC Pipeline
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  qc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Use the version you require
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm install
+
+      - name: HTML Validation
+        uses: yusukebe/w3c-html-validator@v2.0
+        with:
+          target: 'posts' # Validate all files in the directory
+          directory: '.' # Validate from the root directory, change if your html files are in another folder
+          verbose: true
+
+      - name: CSS Linting
+        uses: actions/checkout@v3
+      - name: Run stylelint
+        uses: docker://stylelint/stylelint:15.10.3
+        with:
+          args: '**/*.css'
+
+      - name: Broken Link Checker
+        uses: lycheeverse/lychee-action@v1.8.0
+        with:
+          args: .
+
+      - name: Build Website
+        run: |
+          echo "Building the website..."
+          # Add your website build commands here. 
+          # For example, if you use a static site generator:
+          # ./your-static-site-generator build 
+          echo "Website build completed."
+
+      - name: Run tests
+        run: |
+          echo "Running tests..."
+          # Add your test commands here.
+          # For example: npm test
+          echo "Tests finished."

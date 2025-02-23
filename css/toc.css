@@ -1,0 +1,14 @@
+#toc {
+  float: right;
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+}
+#toc ul li {
+  list-style-type: none;
+  text-align: right;
+  font-weight: bold;
+  font-size: 115%;
+}
+#toc ul li a {
+  color: #A0522D;
+}

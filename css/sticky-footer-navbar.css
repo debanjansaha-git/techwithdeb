@@ -1,0 +1,53 @@
+/* sticky-footer-navbar.css */
+
+html {
+    position: relative;
+    min-height: 100%; /* Ensure the html takes up the full viewport height */
+  }
+  
+  body {
+    margin-bottom: 0; /* Remove default bottom margin */
+    background-color: #F8F8FF;/* Set a light beige background color for the whole page */
+    /* all link styles are moved to default.css */
+  }
+  
+  #wrap {
+    min-height: 100%; /* Ensure wrap is at least the full viewport height */
+    height: auto; /* Let the content determine the height, Remove redundant height:100%*/
+    margin: 0 auto 0; /* Center horizontally */
+    padding: 0 0 90px; /* Add padding for the footer's height, preventing overlap */
+    /* This element contains all the content of the body, the footer is outside of it */
+  }
+  
+  #footer {
+    position: absolute;
+    left: 0;
+    bottom: 0; /* Stick to the bottom of #wrap */
+    width: 100%;
+    height: 90px;
+    background-color: #556B2F; /* Light gray, using hexadecimal color */
+    font-family: 'Montserrat', sans-serif; /* Montserrat for navbar */
+    font-size: 90%;
+    text-align: right;
+    color: #FFFFFF; /*set the color of the text of the footer to white*/
+  }
+  
+  body > .container {
+    padding: 90px 15px 0; /* Add top padding to avoid navbar, set right and left padding */
+    /* This element contains the container of the content */
+  }
+  
+  #footer > .container {
+    padding: 20px; /* Add padding to content inside the footer container */
+  }
+  
+  code {
+    font-size: 80%;
+  }
+  
+  #home {
+    font-family: 'Montserrat', sans-serif; /* Montserrat for navbar */
+    margin-top: 4px;
+    font-size: 22px;
+  }
+  
