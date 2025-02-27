@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Tech with Deb</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="../../../../../assets/img/favicon.png" rel="icon" />
+    <link
+      href="../../../../../assets/img/apple-touch-icon.png"
+      rel="apple-touch-icon"
+    />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="../../../../../assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../../../../assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="../../../../../assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="../../../../../assets/vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../../../../assets/vendor/swiper/swiper-bundle.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Main CSS File -->
+    <link href="../../../../../assets/css/main.css" rel="stylesheet" />
+    <!--Highlight-->
+    <link
+      href="../../../../../assets/highlight/styles/github.css"
+      rel="stylesheet"
+    />
+
+    <script
+      type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    ></script>
+  </head>
+
+  <body>
+    <!-- Page Title -->
+    <div class="page-title dark-background">
+      <div
+        class="container d-lg-flex justify-content-between align-items-center"
+      >
+        <h1 class="mb-2 mb-lg-0">Wrapper Based Selection Methods</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="../../../../../index.html">Home</a></li>
+            <li><a href="../../../../../blogs.html">Blogs</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <!-- End Page Title -->
+
+    <div id="wrap">
+      <main id="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div id="body">
+                <div class="info">
+                  <p style="font-family: Roboto; font-size: 130%">
+                    Posted on
+                    <time datetime="2023-02-13">February 13, 2023</time>
+                  </p>
+                  <div class="tag-container">
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/neural_networks.html"
+                        >neural networks</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/deep_learning.html"
+                        >deep learning</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/transformers.html"
+                        >transformers</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/attention.html"
+                        >attention</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/nlp.html"
+                        >NLP</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/machine_learning.html"
+                        >machine learning</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/ai.html">AI</a></span
+                    >
+                  </div>
+                </div>
+                <section>
+                  <p>
+                    There are many ways in which features can be selected from a
+                    set of predictors to improve the performance of the machine
+                    learning models. Among these techniques, a common practice
+                    is used to use another machine learning model as a wrapper,
+                    trained on the set of predictor combinations to determine
+                    which set of predictors performs the best on the given
+                    model.
+                  </p>
+                  <p>
+                    In this article we shall look into some of the popular
+                    machine learning algorithms such as Recursive Feature
+                    Elimination (RFE), Forward Feature Selection, and Backward
+                    Feature Elimination. Since this article is a continuation
+                    from our previous article on
+                    <a
+                      href="https://debanjansaha-git.github.io/techwithdeb/posts/2023/07/30/Understanding_Transformers/"
+                      >Filter based Feature Selection</a
+                    >
+                    techniques, we will use the same running example of the
+                    Breast Cancer Wisconsin (Diagnostic) dataset available at
+                    the UCI Machine Learning Repository for testing our models.
+                  </p>
+                  <section>
+                    <h2>Wrapper Methods</h2>
+                    <p>
+                      Wrapper methods determine the importance of each feature
+                      based on the performance of a machine learning algorithm.
+                      The features are chosen based on the performance of the
+                      model trained on those features. The method is repeated
+                      for various feature combinations until the best collection
+                      of features is discovered.
+                    </p>
+
+                    <subsection>
+                      <h3>RFE (Recursive Feature Elimination)</h3>
+                      <p>
+                        In machine learning, Recursive Feature Elimination (RFE)
+                        is a feature selection strategy used to choose the most
+                        relevant features for a given dataset. RFE aims to
+                        identify the subset of features that have the strongest
+                        relationship with the target variable while
+                        simultaneously lowering the dimensionality of the data.
+                      </p>
+                      <p>
+                        RFE operates by deleting the weakest feature iteratively
+                        until the required number of features has been reached.
+                        Typically, a model’s coefficient or feature importances
+                        are used to assess the strength of the relationship
+                        between each feature and the target variable.
+                      </p>
+                      <h4>Steps Involved in RFE</h4>
+                      <p>Following is a summary of the RFE process:</p>
+                      <ol>
+                        <li>
+                          Initialize the number of features to be retained
+                          (e.g., the top 10 features).
+                        </li>
+                        <li>Train a model on all available features.</li>
+                        <li>
+                          Evaluate the significance of each feature using the
+                          coefficients or feature importances from the model.
+                        </li>
+                        <li>Eliminate the feature with the lowest priority.</li>
+                        <li>
+                          Retrain the model on the decreased set of features.
+                        </li>
+                        <li>
+                          Repeat steps 3 through 5 until the necessary quantity
+                          of features has been accumulated.
+                        </li>
+                        <li>Select the final set of features.</li>
+                      </ol>
+                      <p>
+                        RFE is a straightforward and effective technique that
+                        may be applied to numerous machine learning model types,
+                        such as linear regression, decision trees, and support
+                        vector machines (SVM).
+                      </p>
+                      <h4>Implementation in Python</h4>
+                      <pre class="code-block"><code class="language-python">
+import pandas as pd
+from sklearn.datasets import load_breast_cancer
+from sklearn.feature_selection import RFE
+from sklearn.linear_model import LogisticRegression
+
+# Load the breast cancer dataset
+data = load_breast_cancer()
+X = data.data
+y = data.target
+
+# Create a Logistic Regression model
+model = LogisticRegression()
+
+# Initialize RFE with the desired number of features
+rfe = RFE(model, n_features_to_select=10)
+
+# Fit the RFE model to the data
+rfe = rfe.fit(X, y)
+
+# Print the selected features
+print("Selected features:", data.feature_names[rfe.support_])
+                                </code></pre>
+                      <p>
+                        In this code, we first load the breast cancer dataset
+                        from the UCI Machine Learning repository using the
+                        <spam class="code">load_breast_cancer</spam> function
+                        from the
+                        <spam class="code">sklearn.datasets</spam> module. Then,
+                        we create a Logistic Regression model and initialize RFE
+                        with the desired number of features to keep. We fit the
+                        RFE model to the data, and finally, print the selected
+                        features. From our experiments we find that the
+                        following ten features appear to be the most important
+                        ones: <spam class="code">mean radius</spam>,
+                        <spam class="code">mean compactness</spam>,
+                        <spam class="code">mean concavity</spam>,
+                        <spam class="code">texture error</spam>,
+                        <spam class="code">worst radius</spam>,
+                        <spam class="code">worst smoothness</spam>,
+                        <spam class="code">worst compactness</spam>,
+                        <spam class="code">worst concavity</spam>,
+                        <spam class="code">worst concave points</spam>,
+                        <spam class="code">worst symmetry</spam>.
+                      </p>
+                      <p>
+                        Note that you can use other machine learning models
+                        instead of Logistic Regression and adjust the number of
+                        features to select as desired. It is also important to
+                        cross-validate the results to ensure the best feature
+                        set is selected.
+                      </p>
+                      <p>
+                        Despite the fact that RFE can reduce the dimensionality
+                        of the data, it may not always produce the optimal
+                        feature set. RFE relies on a single model and its
+                        feature importances, hence it is essential to examine
+                        other feature selection strategies and cross-validate
+                        the results to guarantee the optimal feature set is
+                        chosen.
+                      </p>
+                    </subsection>
+                    <subsection>
+                      <h3>Forward Feature Selection</h3>
+                      <p>
+                        Forward Feature Selection (FFS) is a feature selection
+                        method used in machine learning to determine the most
+                        pertinent features for a given dataset. FFS seeks to
+                        identify the lowest subset of features that yields the
+                        highest model performance.
+                      </p>
+                      <p>
+                        FFS begins with an empty feature set and adds each
+                        feature individually. The feature that improves model
+                        performance the most is added to the feature set, and
+                        the process is continued until all features have been
+                        considered or a stopping criterion is satisfied.
+                      </p>
+                      <h4>Steps involved in FFS</h4>
+                      <p>Following is a summary of the FFS process:</p>
+                      <ol>
+                        <li>Initialize a feature set that is empty.</li>
+                        <li>
+                          Train a model using the current feature set plus the
+                          feature in question for each feature in the complete
+                          feature set.
+                        </li>
+                        <li>
+                          Evaluate the model’s performance using a statistic
+                          such as precision, AUC, or F1 score.
+                        </li>
+                        <li>
+                          Choose the feature that yields the greatest
+                          performance enhancement.
+                        </li>
+                        <li>
+                          Add the chosen feature to the current collection of
+                          features.
+                        </li>
+                        <li>
+                          Repeat steps 2 through 5 until all features have been
+                          taken into account or a stopping requirement has been
+                          satisfied.
+                        </li>
+                        <li>Select the final set of features.</li>
+                      </ol>
+                      <h4>Implementation in Python</h4>
+                      <pre class="code-block"><code class="language-python">    
+import pandas as pd
+import numpy as np
+from sklearn.datasets import load_breast_cancer
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+# Load the breast cancer dataset
+data = load_breast_cancer()
+X = data.data
+y = data.target
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+# Scale the training features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Create an empty feature set
+selected_features = []
+
+# Create a full feature set
+full_features = list(range(X.shape[1]))
+
+# Initialize the best performance to be 0
+best_performance = 0
+
+# Repeat the forward selection process until all features have been considered
+while len(full_features) > 0:
+    # Create a dictionary to store the performance of each feature
+    feature_performance = {}
+    
+    # Iterate over each feature
+    for feature in full_features:
+        # Add the feature to the current feature set
+        current_features = selected_features + [feature]
+        
+        # Train a logistic regression model using the current feature set
+        model = LogisticRegression(max_iter=1000, solver='saga')
+        model.fit(X_train[:, current_features], y_train)
+        
+        # Evaluate the model performance on the testing set
+        y_pred = model.predict(X_test[:, current_features])
+        performance = accuracy_score(y_test, y_pred)
+        
+        # Store the performance of the feature
+        feature_performance[feature] = performance
+    
+    # Find the feature that results in the best performance
+    best_feature = max(feature_performance, key=feature_performance.get)
+    
+    # Update the best performance
+    best_performance = feature_performance[best_feature]
+    
+    # Add the best feature to the selected features
+    selected_features.append(best_feature)
+    
+    # Remove the best feature from the full feature set
+    full_features.remove(best_feature)
+
+# Print the selected features
+print("Selected features:", [data.feature_names[i] for i in selected_features])
+                      </code></pre>
+                      <p>
+                        In this code, we load the data, split it into training
+                        and testing sets, and scale the predictors. We then,
+                        create an empty feature set, a full feature set, and
+                        initialize the best performance to be 0. We repeat the
+                        forward selection process until all features have been
+                        considered. In each iteration, we train a logistic
+                        regression model using the current feature set, evaluate
+                        the model performance on the testing set, and store the
+                        performance of each feature. We find the feature that
+                        results in the best performance and add it to the
+                        selected features. We remove the best feature from the
+                        full feature set and repeat the process.
+                      </p>
+                      <p>
+                        FFS can be computationally expensive because to the need
+                        to train and evaluate a model for every feature in the
+                        whole feature set. It is essential to investigate
+                        alternative feature selection strategies and
+                        cross-validate the results to guarantee that the optimal
+                        feature set is chosen.
+                      </p>
+                      <p>
+                        Notably, FFS does not guarantee discovering the globally
+                        optimal feature set because it only examines adding
+                        features one at a time. Nevertheless, it can be a
+                        beneficial strategy for feature selection, especially
+                        when the number of features is minimal or the dataset is
+                        huge.
+                      </p>
+                    </subsection>
+                    <subsection>
+                      <h3>Backward Feature Elimination</h3>
+                      <p>
+                        Backward Feature Elimination (BFE) is a feature
+                        selection strategy that begins with all the features and
+                        removes the least significant feature(s) iteratively
+                        until a desired number of features is attained or no
+                        increase in model performance is noticed. The objective
+                        of backward feature elimination is to determine the
+                        minimal collection of features that leads to optimal
+                        model performance.
+                      </p>
+                      <h4>Steps involved in BFE</h4>
+                      <ol>
+                        <li>Fit a model with all of its features.</li>
+                        <li>
+                          Use a performance statistic like as accuracy,
+                          precision, recall, F1-score, or R-squared to evaluate
+                          the model’s performance.
+                        </li>
+                        <li>
+                          The feature with the lowest coefficient should be
+                          eliminated (i.e., the feature with the weakest
+                          association with the target variable).
+                        </li>
+                        <li>Fit the remaining features into the model.</li>
+                        <li>
+                          Repeat steps 2 to 4 until all features have been
+                          eliminated or until the required number of features
+                          has been attained.
+                        </li>
+                        <li>
+                          The final combination of features yields the highest
+                          model performance.
+                        </li>
+                      </ol>
+                      <h4>Implementation in Python</h4>
+                      <pre class="code-block"><code class="language-python">
+from sklearn.datasets import load_breast_cancer
+from sklearn.feature_selection import RFE
+from sklearn.linear_model import LogisticRegression
+
+# Load breast cancer dataset
+data = load_breast_cancer()
+X, y = data.data, data.target
+
+# Create logistic regression object
+logreg = LogisticRegression(solver='sag', max_iter=10000)
+
+# Create recursive feature eliminator object
+rfe = RFE(logreg, n_features_to_select=1)
+
+# Fit RFE to the data
+fit = rfe.fit(X, y)
+
+# Get the ranking of features
+ranking = fit.ranking_
+
+# Sort the ranking in ascending order
+sorted_ranking = sorted(enumerate(ranking), key=lambda x: x[1])
+
+# Print the sorted ranking
+print("Features sorted by their rank:")
+for i, rank in sorted_ranking:
+    print("Feature %d: rank %d" % (i+1, rank))
+                        </code></pre>
+                      <p>
+                        In this code, we first load the breast cancer dataset
+                        and split it into predictor variables
+                        <spam class="code">X</spam> and target variable
+                        <spam class="code">y</spam>. Then, we fit a logistic
+                        regression model as the estimator. Next, we use the
+                        <spam class="code">RFE</spam> class from the
+                        scikit-learn's
+                        <spam class="code">feature_selection</spam> module to
+                        perform backward feature elimination. We specify
+                        <spam class="code">n_features_to_select=1</spam> to
+                        indicate that we want to keep only the most important
+                        feature. The <spam class="code">rfe.fit</spam> function
+                        fits the RFE model on the data. Finally, we use the
+                        <spam class="code">rfe.ranking_</spam>attribute to get
+                        the ranking of the features, with 1 being the most
+                        important feature and
+                        <spam class="code">X.shape[1]</spam> being the least
+                        important feature. The for loop then prints the ranking
+                        of the features.
+                      </p>
+                      <p>
+                        In conclusion, backward feature elimination is a basic
+                        and straightforward method for identifying the most
+                        significant features for a particular task and reducing
+                        the dimensionality of the data. The performance metric
+                        chosen will depend on the nature of the problem at hand
+                        and the sort of model employed. In a binary
+                        classification task, for instance, accuracy, precision,
+                        recall, and F1-score are often used metrics, whereas in
+                        a linear regression problems, R-squared is frequently
+                        employed.
+                      </p>
+                    </subsection>
+                    <subsection>
+                      <h2>Conclusion</h2>
+                      <p>
+                        In conclusion, Recursive Feature Elimination (RFE),
+                        Forward Feature Selection, and Backward Feature
+                        Elimination are three important feature selection
+                        techniques used in machine learning. They are used to
+                        identify the most relevant features from a set of
+                        predictors, which can improve the performance of a
+                        machine learning model.
+                      </p>
+                      <p>
+                        RFE works by recursively removing features from the
+                        model until only the most important features are left.
+                        This is done by ranking the features according to their
+                        importance and removing the least important features
+                        until a specified number of features remains.
+                      </p>
+                      <p>
+                        Forward Feature Selection, on the other hand, works by
+                        starting with an empty set of features and adding
+                        features one by one until the performance of the model
+                        improves or reaches a specified threshold. This
+                        technique is useful when the number of features is
+                        large, as it allows the model to select only the most
+                        important features.
+                      </p>
+                      <p>
+                        Backward Feature Elimination starts with all the
+                        features and removes features one by one until only the
+                        most important features remain. This technique is useful
+                        when the number of features is small, as it allows the
+                        model to identify the most relevant features quickly.
+                      </p>
+                      <p>
+                        In all three techniques, the final ranking of the
+                        features displays the relative importance of each
+                        feature, with the most important features appearing
+                        first and the least important features appearing last.
+                        These techniques can be used to select the most relevant
+                        features from a large number of predictors, which can
+                        improve the performance of a machine learning model and
+                        reduce the risk of overfitting.
+                      </p>
+                    </subsection>
+                  </section>
+                  <section>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+                    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+                  </section>
+                </section>
+              </div>
+            </div>
+            <div class="col-md-4" id="toc-wrapper"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer id="footer" class="footer position-relative light-background">
+      <div class="container">
+        <div class="copyright text-center">
+          <p>
+            © <span>Copyright</span>
+            <strong class="px-1 sitename">Debanjan Saha</strong>
+            <span>All Rights Reserved</span>
+          </p>
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you've purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+          Designed by
+          <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by
+          <a href="https://themewagon.com">ThemeWagon</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scroll Top -->
+    <a
+      href="#"
+      id="scroll-top"
+      class="scroll-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <!-- jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="../../../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../../../assets/js/main.js"></script>
+
+    <script src="../../../../../assets/highlight/highlight.pack.js"></script>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+
+    <script src="../../../../../assets/js/footnotes.js"></script>
+    <script src="../../../../../assets/js/bootstrap-carousel.js"></script>
+    <script src="../../../../../assets/js/inlineDisqussions.js"></script>
+    <script src="../../../../../assets/js/toc.js"></script>
+
+    <script
+      type="text/javascript"
+      src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    ></script>
+
+    <noscript
+      >Enable JavaScript for footnotes, Disqus comments, and other cool
+      stuff.</noscript
+    >
+  </body>
+</html>
