@@ -1,176 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Tech with Deb</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
 
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Understanding Transformers - Tech with Deb</title>
-        
-        <link rel="stylesheet" href="../../../../../fonts/Serif/cmun-serif.css" />
-        <link rel="stylesheet" href="../../../../../fonts/Serif-Slanted/cmun-serif-slanted.css" />
+    <!-- Favicons -->
+    <link href="../../../../../assets/img/favicon.png" rel="icon" />
+    <link
+      href="../../../../../assets/img/apple-touch-icon.png"
+      rel="apple-touch-icon"
+    />
 
-        <!--BOOTSTRAP-->
-        <link href="../../../../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <!--mobile first-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
 
-        <!--removed html from url but still is html-->
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Vendor CSS Files -->
+    <link
+      href="../../../../../assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../../../../assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="../../../../../assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="../../../../../assets/vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../../../../assets/vendor/swiper/swiper-bundle.min.css"
+      rel="stylesheet"
+    />
 
-        <!--font awesome-->
-        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <!-- Main CSS File -->
+    <link href="../../../../../assets/css/main.css" rel="stylesheet" />
+    <!--Highlight-->
+    <link
+      href="../../../../../assets/highlight/styles/github.css"
+      rel="stylesheet"
+    />
 
-        <!--fonts: allan & cardo-->
-        <link href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css">
-        <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
+    <script
+      type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    ></script>
+  </head>
 
-        <link href="../../../../../css/sticky-footer-navbar.css" rel="stylesheet">
+  <body>
+    <!-- Page Title -->
+    <div class="page-title dark-background">
+      <div
+        class="container d-lg-flex justify-content-between align-items-center"
+      >
+        <h1 class="mb-2 mb-lg-0">Understanding Transformers</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="../../../../../index.html">Home</a></li>
+            <li><a href="../../../../../blogs.html">Blogs</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <!-- End Page Title -->
 
-        <link href="../../../../../css/default.css" rel="stylesheet">
+    <div id="wrap">
+      <main id="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div id="body">
+                <div class="info">
+                  <p style="font-family: Roboto; font-size: 130%">
+                    Posted on
+                    <time datetime="2023-09-30">September 30, 2023</time>
+                  </p>
+                  <div class="tag-container">
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/neural_networks.html"
+                        >neural networks</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/deep_learning.html"
+                        >deep learning</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/transformers.html"
+                        >transformers</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/attention.html"
+                        >attention</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/nlp.html"
+                        >NLP</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/machine_learning.html"
+                        >machine learning</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/ai.html">AI</a></span
+                    >
+                  </div>
+                </div>
+                <section>
+                  <p>
+                    When there are a lot of predictors (or features), it is
+                    often best to pick the most important ones and get rid of
+                    the rest. There are many ways to do this, and most of them
+                    can be put into two groups: techniques for selecting
+                    features and techniques for reducing the number of
+                    dimensions. Dimension reduction techniques try to project
+                    the data into lower dimensions in order to keep only the
+                    information in the data that is needed for the analysis. On
+                    the other hand, feature selection techniques try to show
+                    statistically why one predictor should be used over another.
+                  </p>
+                  <p>
+                    We will only look at the best filter-based feature selection
+                    techniques in this article. Even though there is a lot to
+                    learn about feature selection, we will only talk about the
+                    top few of the most important filter-based feature selection
+                    techniques in this article so that it doesn’t get too long.
+                    Also, as a running example, we will be testing the
+                    performance of these methods on the Breast Cancer Wisconsin
+                    (Diagnostic) dataset available at the UCI Machine Learning
+                    Repository.
+                  </p>
+                  <section>
+                    <h2>Feature Selection</h2>
+                    <p>
+                      Feature selection is an important phase in the machine
+                      learning process since it improves model performance and
+                      reduces model complexity. The primary goal of feature
+                      selection is to discover a subset of relevant features
+                      that contribute the most to prediction accuracy while
+                      removing redundant or unnecessary features, significantly
+                      reducing computational time. There are several feature
+                      selection techniques available, and some of the popular
+                      ones are filter based methods, wrapper methods, embedded
+                      methods and hybrid methods.
+                    </p>
+                    <subsection>
+                      <h2>Filter Based Methods</h2>
+                      <p>
+                        Filter methods are the most basic feature selection
+                        methods. It uses a basic statistical test to determine
+                        the significance of each feature with respect to the
+                        target variable. The most important feature is the one
+                        with the highest correlation or mutual information with
+                        the target variable. The Pearson correlation analysis,
+                        Spearman’s rank correlation analysis, Kendall's tau,
+                        analysis of variance (ANOVA), and chi-squared test are
+                        five of the most popular filter methods.
+                      </p>
 
-        <link href="../../../../../css/bootstrap-carousel.css" rel="stylesheet">
+                      <subsection>
+                        <h2>Pearson Correlation Analysis</h2>
+                        <p>
+                          Pearson Correlation Analysis is a statistical method
+                          used to measure the linear relationship between two
+                          continuous variables. The linear relationship between
+                          two variables is measured in terms of strength and
+                          direction. The Pearson correlation coefficient, often
+                          known as Pearson’s
+                          <span class="math">\(r\)</span>, ranges from
+                          <span class="math">\(-1\)</span> to
+                          <span class="math">\(1\)</span>, where
+                          <span class="math">\(-1\)</span> represents a strong
+                          negative linear relationship,
+                          <span class="math">\(0\)</span> represents no linear
+                          relationship, and <span class="math">\(1\)</span>
+                          represents a strong positive linear relationship.
+                        </p>
 
+                        <p>
+                          Here are the mathematical formulas for calculating
+                          Pearson’s correlation coefficient, depending on
+                          whether you're working with the population or a
+                          sample:
+                        </p>
 
-        <link href="../../../../../css/inlineDisqussions.css" rel="stylesheet">
+                        <div class="formula-block">
+                          <p class="math">
+                            \[ r_{X,Y} = \frac{\text{cov}(X, Y)}{\sigma_X
+                            \sigma_Y} = \frac{E[(X - \mu_X)(Y -
+                            \mu_Y)]}{\sigma_X \sigma_Y} \]
+                          </p>
+                          <ul>
+                            <li>
+                              <span class="math">\(r_{X,Y}\)</span>: Pearson
+                              correlation coefficient between random variables
+                              \(X\) and \(Y\) (population).
+                            </li>
+                            <li>
+                              <span class="math">\(\text{cov}(X, Y)\)</span>:
+                              Covariance between \(X\) and \(Y\).
+                            </li>
+                            <li>
+                              <span class="math">\(\sigma_X\)</span>: Standard
+                              deviation of \(X\).
+                            </li>
+                            <li>
+                              <span class="math">\(\sigma_Y\)</span>: Standard
+                              deviation of \(Y\).
+                            </li>
+                            <li>
+                              <span class="math">\(E[\cdot]\)</span>: Expected
+                              value.
+                            </li>
+                            <li>
+                              <span class="math">\(\mu_X\)</span>: Mean of
+                              \(X\).
+                            </li>
+                            <li>
+                              <span class="math">\(\mu_Y\)</span>: Mean of
+                              \(Y\).
+                            </li>
+                          </ul>
 
-        <!--Highlight-->
-        <link href="../../../../../highlight/styles/github.css" rel="stylesheet">
-        
-        <link href="../../../../../favicon.ico" rel="shortcut icon" />
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-49811703-1', 'colah.github.io');
-  ga('require', 'linkid', 'linkid.js');
-  ga('require', 'displayfeatures');
-  ga('send', 'pageview');
-
-</script>
-
-
-    </head>
-
-    <body>
-        <div id="wrap">
-            <header>
-                <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
-                    <div class="container">
-                        <!--Toggle header for mobile-->
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand active" href="../../../../../" id="home">Tech with Deb</a>
+                          <p class="math">
+                            \[ r_{xy} = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i
+                            - \bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2
+                            \sum_{i=1}^{n}(y_i - \bar{y})^2}} =
+                            \frac{n\sum{x_iy_i} -
+                            \sum{x_i}\sum{y_i}}{\sqrt{[n\sum{x_i^2} -
+                            (\sum{x_i})^2][n\sum{y_i^2} - (\sum{y_i})^2]}} \]
+                          </p>
+                          <ul>
+                            <li>
+                              <span class="math">\(r_{xy}\)</span>: Sample
+                              Pearson correlation coefficient between variables
+                              \(x\) and \(y\).
+                            </li>
+                            <li>
+                              <span class="math">\(x_i\)</span>: Individual data
+                              point for \(x\).
+                            </li>
+                            <li>
+                              <span class="math">\(y_i\)</span>: Individual data
+                              point for \(y\).
+                            </li>
+                            <li>
+                              <span class="math">\(\bar{x}\)</span>: Sample mean
+                              of \(x\).
+                            </li>
+                            <li>
+                              <span class="math">\(\bar{y}\)</span>: Sample mean
+                              of \(y\).
+                            </li>
+                            <li>
+                              <span class="math">\(\sum_{i=1}^{n}\)</span>:
+                              Summation from \(i = 1\) to \(n\).
+                            </li>
+                            <li>
+                              <span class="math">\(n\)</span>: Number of data
+                              points.
+                            </li>
+                          </ul>
                         </div>
-                        <!--normal header-->
-                        <div class="navbar-collapse collapse">
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a href="../../../../../"><span class="glyphicon glyphicon-pencil"></span>  Blog</a></li>
-                                <li><a href="../../../../../about.html"><span class="glyphicon glyphicon-user"></span>  About</a></li>
-                                <li><a href="../../../../../contact.html"><span class="glyphicon glyphicon-envelope"></span>  Contact</a></li>
-                            </ul>
-                        </div><!--/.nav-collapse -->
-                    </div>
-                </nav>
-            </header>
-            
-            <main id="content">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h1>Filter Based Selection Methods</h1>
-                            <div id="body">
-                                <div class="info">
-                                    <p style="font-family:CMSS; font-size:130%">Posted on <time datetime="2023-02-12">February 12, 2023</time></p>
-                                    <div class="tag-container">
-                                        <span class="tag-item"><a href="../../../../../posts/tags/machine_learning.html">machine learning</a></span>
-                                        <span class="tag-item"><a href="../../../../../posts/tags/statistics.html">statistics</a></span>
-                                        <span class="tag-item"><a href="../../../../../posts/tags/feature_selection.html">feature selection</a></span>
-                                        <span class="tag-item"><a href="../../../../../posts/tags/python.html">python</a></span>
-                                        <span class="tag-item"><a href="../../../../../posts/tags/pearsons-correlation.html">pearson correlation coefficient</a></span>
-                                        <span class="tag-item"><a href="../../../../../posts/tags/spearman-r.html">spearman r</a></span>
-                                        <span class="tag-item"><a href="../../../../../posts/tags/kendall-tau.html">kendalls tau</a></span>
-                                        <span class="tag-item"><a href="../../../../../posts/tags/anova.html">anova</a></span>
-                                        <span class="tag-item"><a href="../../../../../posts/tags/chi-squared.html">chi-squared</a></span>
-                                    </div>
-                                    
-                                </div>
-                                </br>
-                                <section>
-                                    <p>When there are a lot of predictors (or features), it is often best to pick the most important ones and get rid of the rest. There are many ways to do this, and most of them can be put into two groups: techniques for selecting features and techniques for reducing the number of dimensions. Dimension reduction techniques try to project the data into lower dimensions in order to keep only the information in the data that is needed for the analysis. On the other hand, feature selection techniques try to show statistically why one predictor should be used over another.</p>
-                                    <p>We will only look at the best filter-based feature selection techniques in this article. Even though there is a lot to learn about feature selection, we will only talk about the top few of the most important filter-based feature selection techniques in this article so that it doesn’t get too long. Also, as a running example, we will be testing the performance of these methods on the Breast Cancer Wisconsin (Diagnostic) dataset available at the UCI Machine Learning Repository.</p>
-                                    <br></br>
-                                    <h2>Feature Selection</h2>
-                                    <p>Feature selection is an important phase in the machine learning process since it improves model performance and reduces model complexity. The primary goal of feature selection is to discover a subset of relevant features that contribute the most to prediction accuracy while removing redundant or unnecessary features, significantly reducing computational time. There are several feature selection techniques available, and some of the popular ones are filter based methods, wrapper methods, embedded methods and hybrid methods.</p>
-                                    <br></br>
-                                    <h2>Filter Based Methods</h2>
-                                    <p>Filter methods are the most basic feature selection methods. It uses a basic statistical test to determine the significance of each feature with respect to the target variable. The most important feature is the one with the highest correlation or mutual information with the target variable. The Pearson correlation analysis, Spearman’s rank correlation analysis, Kendall's tau, analysis of variance (ANOVA), and chi-squared test are five of the most popular filter methods.</p>
-
-                                    <br></br>
-                                    <section>
-                                    <h2>Pearson Correlation Analysis</h2>
-                                    <p>
-                                    Pearson Correlation Analysis is a statistical method used to measure the
-                                    linear relationship between two continuous variables. The linear
-                                    relationship between two variables is measured in terms of strength and
-                                    direction. The Pearson correlation coefficient, often known as Pearson’s
-                                    <span class="math">\(r\)</span>, ranges from <span class="math">\(-1\)</span> to
-                                    <span class="math">\(1\)</span>, where <span class="math">\(-1\)</span>
-                                    represents a strong negative linear relationship, <span class="math">\(0\)</span>
-                                    represents no linear relationship, and <span class="math">\(1\)</span>
-                                    represents a strong positive linear relationship.
-                                    </p>
-
-                                    <p>
-                                    Here are the mathematical formulas for calculating Pearson’s correlation
-                                    coefficient, depending on whether you're working with the population or a
-                                    sample:
-                                    </p>
-
-                                    <div class="formula-block">
-                                    <p class="math">
-                                        \[ r_{X,Y} = \frac{\text{cov}(X, Y)}{\sigma_X \sigma_Y} =
-                                        \frac{E[(X - \mu_X)(Y - \mu_Y)]}{\sigma_X \sigma_Y} \]
-                                    </p>
-                                    <ul>
-                                        <li>
-                                        <span class="math">\(r_{X,Y}\)</span>: Pearson correlation coefficient
-                                        between random variables \(X\) and \(Y\) (population).
-                                        </li>
-                                        <li><span class="math">\(\text{cov}(X, Y)\)</span>: Covariance between \(X\) and \(Y\).</li>
-                                        <li><span class="math">\(\sigma_X\)</span>: Standard deviation of \(X\).</li>
-                                        <li><span class="math">\(\sigma_Y\)</span>: Standard deviation of \(Y\).</li>
-                                        <li><span class="math">\(E[\cdot]\)</span>: Expected value.</li>
-                                        <li><span class="math">\(\mu_X\)</span>: Mean of \(X\).</li>
-                                        <li><span class="math">\(\mu_Y\)</span>: Mean of \(Y\).</li>
-                                    </ul>
-                                    <br>
-                                    <p class="math">
-                                        \[ r_{xy} = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2 \sum_{i=1}^{n}(y_i - \bar{y})^2}} = \frac{n\sum{x_iy_i} - \sum{x_i}\sum{y_i}}{\sqrt{[n\sum{x_i^2} -
-                                        (\sum{x_i})^2][n\sum{y_i^2} - (\sum{y_i})^2]}} \]
-                                    </p>
-                                    <ul>
-                                        <li>
-                                        <span class="math">\(r_{xy}\)</span>: Sample Pearson correlation
-                                        coefficient between variables \(x\) and \(y\).
-                                        </li>
-                                        <li><span class="math">\(x_i\)</span>: Individual data point for \(x\).</li>
-                                        <li><span class="math">\(y_i\)</span>: Individual data point for \(y\).</li>
-                                        <li><span class="math">\(\bar{x}\)</span>: Sample mean of \(x\).</li>
-                                        <li><span class="math">\(\bar{y}\)</span>: Sample mean of \(y\).</li>
-                                        <li><span class="math">\(\sum_{i=1}^{n}\)</span>: Summation from \(i = 1\) to \(n\).</li>
-                                        <li><span class="math">\(n\)</span>: Number of data points.</li>
-                                    </ul>
-                                    </div>
-                                    <p>The numerator of the formula calculates the covariance between x and y, which measures the degree to which the variables vary together. By dividing the denominator of the formula by the product of the standard deviations of x and y, which measures the relationship’s strength, the covariance is standardized. The resultant value of r can then be used to interpret the linear relationship between the two variables.</p>
-                                    <p>Here is the implementation of calculating Pearson Correlation Coefficient:</p>
-                                    <pre class="code-block"><code class="language-python">
+                        <p>
+                          The numerator of the formula calculates the covariance
+                          between x and y, which measures the degree to which
+                          the variables vary together. By dividing the
+                          denominator of the formula by the product of the
+                          standard deviations of x and y, which measures the
+                          relationship’s strength, the covariance is
+                          standardized. The resultant value of r can then be
+                          used to interpret the linear relationship between the
+                          two variables.
+                        </p>
+                        <p>
+                          Here is the implementation of calculating Pearson
+                          Correlation Coefficient:
+                        </p>
+                        <pre class="code-block"><code class="language-python">
 import numpy as np
 def pearson_correlation(x, y):
     """
@@ -196,9 +316,14 @@ print("Pearson correlation coefficient:", np.round(pearson_correlation_coefficie
 
 ## Output: Pearson correlation coefficient: 1.0
                                     </code></pre>
-                                    <br>
-                                    <p>Here is another implementation on the Breast Cancer Wisconsin dataset from UCI Machine Learning Repository, where we calculate the correlation among the various predictors and plot a heatmap:</p>
-                                    <pre class="code-block"><code class="language-python">
+
+                        <p>
+                          Here is another implementation on the Breast Cancer
+                          Wisconsin dataset from UCI Machine Learning
+                          Repository, where we calculate the correlation among
+                          the various predictors and plot a heatmap:
+                        </p>
+                        <pre class="code-block"><code class="language-python">
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -216,26 +341,113 @@ plt.figure(figsize=(20,18))
 sns.heatmap(correlation_matrix, annot=True, cmap="YlGnBu")
 plt.show()
                                     </code></pre>
-                                    <div class="bigcenterimgcontainer">
-                                        <img src="img/brest_cancer_wisconsin_corr_plot.webp" alt style>
-                                        </div>
-                                        <div class="spaceafterimg">
-                                        </div>
-                                    <p>Note that Pearson’s correlation only measures linear relationships and does not account for nonlinear relationships between variables is crucial. Moreover, Pearson’s correlation assumes that the relationship between the variables is linear and that the variables have normal distributions. If these conditions are not met, alternative statistical methods, such as Spearman’s rank correlation or Kendall’s tau, should be employed.</p>
-                                    <p>In conclusion, Pearson Correlation Analysis is a widely employed method for determining the linear relationship between two continuous variables. The Pearson correlation coefficient measures the strength and direction of a linear relationship, with a range of -1 to 1. Based on the covariance of the variables and the standard deviation of each variable, Pearson’s correlation coefficient formula is calculated.</p>
-                                </section>
-                                <br></br>
-                                <section>
-                                    <h2>Spearman’s Rank Correlation</h2>
-                                    <p>Spearman’s rank correlation, usually referred to as Spearman’s rho, is a nonparametric statistical test that measures the strength and direction of the relationship between two variables. Spearman’s rank correlation can be used to evaluate correlations that are not necessarily linear, unlike Pearson’s correlation, which implies a linear relationship between the variables.</p>
-                                    <p>In Spearman’s rank correlation, variables are transformed into their ranks before being correlated. A value’s rank is its position in a sorted list of values, with <span class="math">\(1\)</span> being the lowest rank and <span class="math">\(N\)</span> representing the greatest rank, where <span class="math">\(N\)</span> is the number of observations. Instead of using the actual values, the ranks are employed because they are not impacted by outliers or nonlinear relationships.</p>
-                                    <p>Spearman’s rank correlation coefficient, denoted as <span class="math">\(\rho\)</span>, measures the strength and direction of the relationship between variables. A <span class="math">\(\rho\)</span> value of <span class="math">\(1\)</span> implies a complete positive relationship, which means that as the rank of one variable increases, the rank of the other variable also increases. A <span class="math">\(\rho\)</span> value of <span class="math">\(-1\)</span> denotes a perfect negative relationship, which means that when the rank of one variable increases, the rank of the other variable decreases. A <span class="math">\(\rho\)</span> value of <span class="math">\(0\)</span> implies that the variables have no relationship.</p>
-                                    <p>The formula for Spearman’s rank correlation coefficient is:</p>
-                                    <span class="math">\[ \rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)} \]</span>
-                                    <p>where <span class="math">\(d_i\)</span> is the difference between the ranks of corresponding observations, and <span class="math">\(n\)</span> is the number of observations.</p>
-                                    <p>Spearman’s rank correlation can be used to test the null hypothesis that two variables have no relationship. If the null hypothesis is true, a two-tailed significance test can be run on <span class="math">\(\rho\)</span> to assess the likelihood of observing a <span class="math">\(\rho\)</span> value as extreme or more extreme than the observed rho value. The <span class="math">\(p\)</span>-value is then used to evaluate the data and determine if the variables have a significant relationship.</p>
-                                    <p>Let’s have a look at the Spearman’s rank correlation coefficient on the Breast Cancer Wisconsin dataset from UCI Machine Learning repository:</p>
-                                    <pre class="code-block"><code class="language-python">
+                        <div class="bigcenterimgcontainer">
+                          <img
+                            src="img/brest_cancer_wisconsin_corr_plot.webp"
+                            alt
+                            style
+                          />
+                        </div>
+                        <div class="spaceafterimg"></div>
+                        <p>
+                          Note that Pearson’s correlation only measures linear
+                          relationships and does not account for nonlinear
+                          relationships between variables is crucial. Moreover,
+                          Pearson’s correlation assumes that the relationship
+                          between the variables is linear and that the variables
+                          have normal distributions. If these conditions are not
+                          met, alternative statistical methods, such as
+                          Spearman’s rank correlation or Kendall’s tau, should
+                          be employed.
+                        </p>
+                        <p>
+                          In conclusion, Pearson Correlation Analysis is a
+                          widely employed method for determining the linear
+                          relationship between two continuous variables. The
+                          Pearson correlation coefficient measures the strength
+                          and direction of a linear relationship, with a range
+                          of -1 to 1. Based on the covariance of the variables
+                          and the standard deviation of each variable, Pearson’s
+                          correlation coefficient formula is calculated.
+                        </p>
+                      </subsection>
+
+                      <subsection>
+                        <h2>Spearman’s Rank Correlation</h2>
+                        <p>
+                          Spearman’s rank correlation, usually referred to as
+                          Spearman’s rho, is a nonparametric statistical test
+                          that measures the strength and direction of the
+                          relationship between two variables. Spearman’s rank
+                          correlation can be used to evaluate correlations that
+                          are not necessarily linear, unlike Pearson’s
+                          correlation, which implies a linear relationship
+                          between the variables.
+                        </p>
+                        <p>
+                          In Spearman’s rank correlation, variables are
+                          transformed into their ranks before being correlated.
+                          A value’s rank is its position in a sorted list of
+                          values, with <span class="math">\(1\)</span> being the
+                          lowest rank and
+                          <span class="math">\(N\)</span> representing the
+                          greatest rank, where
+                          <span class="math">\(N\)</span> is the number of
+                          observations. Instead of using the actual values, the
+                          ranks are employed because they are not impacted by
+                          outliers or nonlinear relationships.
+                        </p>
+                        <p>
+                          Spearman’s rank correlation coefficient, denoted as
+                          <span class="math">\(\rho\)</span>, measures the
+                          strength and direction of the relationship between
+                          variables. A <span class="math">\(\rho\)</span> value
+                          of <span class="math">\(1\)</span> implies a complete
+                          positive relationship, which means that as the rank of
+                          one variable increases, the rank of the other variable
+                          also increases. A
+                          <span class="math">\(\rho\)</span> value of
+                          <span class="math">\(-1\)</span> denotes a perfect
+                          negative relationship, which means that when the rank
+                          of one variable increases, the rank of the other
+                          variable decreases. A
+                          <span class="math">\(\rho\)</span> value of
+                          <span class="math">\(0\)</span> implies that the
+                          variables have no relationship.
+                        </p>
+                        <p>
+                          The formula for Spearman’s rank correlation
+                          coefficient is:
+                        </p>
+                        <span class="math"
+                          >\[ \rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}
+                          \]</span
+                        >
+                        <p>
+                          where <span class="math">\(d_i\)</span> is the
+                          difference between the ranks of corresponding
+                          observations, and <span class="math">\(n\)</span> is
+                          the number of observations.
+                        </p>
+                        <p>
+                          Spearman’s rank correlation can be used to test the
+                          null hypothesis that two variables have no
+                          relationship. If the null hypothesis is true, a
+                          two-tailed significance test can be run on
+                          <span class="math">\(\rho\)</span> to assess the
+                          likelihood of observing a
+                          <span class="math">\(\rho\)</span> value as extreme or
+                          more extreme than the observed rho value. The
+                          <span class="math">\(p\)</span>-value is then used to
+                          evaluate the data and determine if the variables have
+                          a significant relationship.
+                        </p>
+                        <p>
+                          Let’s have a look at the Spearman’s rank correlation
+                          coefficient on the Breast Cancer Wisconsin dataset
+                          from UCI Machine Learning repository:
+                        </p>
+                        <pre class="code-block"><code class="language-python">
 import pandas as pd
 import scipy.stats as stats
 
@@ -260,71 +472,254 @@ for i in range(len(corr_matrix)):
         else:
             print("The null hypothesis that there is no relationship between feature {} and feature {} can be accepted.".format(i + 1, j + 1))
                                     </code></pre>
-                                    <p>In this code, we first load the breast cancer Wisconsin dataset and assign the features and target variable, and convert the target variable to numerical values. Next, we use the <span class="code">\(stats.spearmanr\)</span> function from the <span class="code">\(scipy\)</span> library to calculate the Spearman's rank correlation between the features and target variable. The function returns a matrix containing the pairwise correlation coefficients, as well as the <span class="math">\(p\)</span>-values.</p>
-                                    <p>Finally, we loop through the correlation matrix and print the results, indicating whether the null hypothesis that there is no relationship between each pair of features should be accepted or rejected based on the magnitude of the correlation coefficient. A correlation coefficient greater than 0.5 is typically considered to indicate a strong relationship, and the null hypothesis can be rejected. Conversely, a correlation coefficient less than 0.5 indicates a weak relationship, and the null hypothesis can be accepted. From our analysis on the dataset, we find that there are many pairs of features which have some kind of relationship amongst them.</p>
-                                    <p>Spearman’s rank correlation is a vital tool for quantifying the relationship between two variables, particularly when the relationship is nonlinear. It offers a straightforward and efficient method for evaluating the strength and direction of the relationship, and can be used to test for significant associations between the variables.</p>
-                                    
-                                </section>
-                                <br></br>
+                        <p>
+                          In this code, we first load the breast cancer
+                          Wisconsin dataset and assign the features and target
+                          variable, and convert the target variable to numerical
+                          values. Next, we use the
+                          <span class="code">\(stats.spearmanr\)</span> function
+                          from the <span class="code">\(scipy\)</span> library
+                          to calculate the Spearman's rank correlation between
+                          the features and target variable. The function returns
+                          a matrix containing the pairwise correlation
+                          coefficients, as well as the
+                          <span class="math">\(p\)</span>-values.
+                        </p>
+                        <p>
+                          Finally, we loop through the correlation matrix and
+                          print the results, indicating whether the null
+                          hypothesis that there is no relationship between each
+                          pair of features should be accepted or rejected based
+                          on the magnitude of the correlation coefficient. A
+                          correlation coefficient greater than 0.5 is typically
+                          considered to indicate a strong relationship, and the
+                          null hypothesis can be rejected. Conversely, a
+                          correlation coefficient less than 0.5 indicates a weak
+                          relationship, and the null hypothesis can be accepted.
+                          From our analysis on the dataset, we find that there
+                          are many pairs of features which have some kind of
+                          relationship amongst them.
+                        </p>
+                        <p>
+                          Spearman’s rank correlation is a vital tool for
+                          quantifying the relationship between two variables,
+                          particularly when the relationship is nonlinear. It
+                          offers a straightforward and efficient method for
+                          evaluating the strength and direction of the
+                          relationship, and can be used to test for significant
+                          associations between the variables.
+                        </p>
+                      </subsection>
 
-                                <section>
-                                    <h2>Kendall’s Tau</h2>
-                                    <p>Kendall's Tau (often denoted by the Greek letter <span class="math">\(\tau\)</span>) is a non-parametric statistical test used to measure the ordinal association between two measured quantities. It assesses the monotonic relationship between two variables, which means it evaluates whether the variables tend to increase or decrease together, but not necessarily at a constant rate (like in a linear relationship).</p>
-                                    <p>Kendall's Tau looks at pairs of observations and determines whether they are concordant or discordant:</p>
-                                    <ul>
-                                    <li>Concordant: Two pairs of data are concordant if the ranks for both elements agree. If <span class="math">\(x\)</span> and <span class="math">\(y\)</span> are two variables, and <span class="math">\(x_i > x_j\)</span> then if <span class="math">\(y_i > y_j\)</span> or if <span class="math">\(x_i < x_j\)</span> and <span class="math">\(y_i < y_j\)</span>, the pair are concordant.</li>
-                                    <li>Discordant: Two pairs of data are discordant if the ranks for both elements disagree. If x and y are two variables, and <span class="math">\(x_i < x_j\)</span> then if <span class="math">\(y_i > y_j\)</span> or vice-versa, the pair are discordant.</li>
-                                    <li>Tied: If any element of a pair have the same value, then the pair are tied.</li>
-                                    </ul>
-                                    <p>The Kendall's Tau correlation coefficient (<span class="math">\(\tau\)</span>) is calculated as follows:</p>
-                                    <div class="formula-block">
-                                        <p class="math">\[\tau = \frac{n_c - n_d}{\frac{1}{2}n(n-1)}\]</p>
-                                        <ul>
-                                            <li><span class="math">\(\tau\)</span>: Represents the Kendall's Tau correlation coefficient.</li>
-                                            <li><span class="math">\(n_c\)</span>: Represents the number of concordant pairs.</li>
-                                            <li><span class="math">\(n_d\)</span>: Represents the number of discordant pairs.</li>
-                                            <li><span class="math">\(n\)</span>: Represents the total number of observations.</li>
-                                            <li><span class="math">\(\frac{1}{2}n(n-1)\)</span>: the total number of pairs of data.</li>
-                                        </ul>
-                                    </div>
-                                    <h3>Adjusting for Ties</h3>
-                                    <p>As we've discussed, Kendall's Tau (<span class="math">\(\tau\)</span>) measures the monotonic relationship between two variables. However, there are a few variations of Kendall's Tau that are used in different situations, primarily when dealing with ties in the data:</p>
-                                    <h4>Kendall's Tau-a (<span class="math">\(\tau_a\)</span>)</h4>
-                                    <p>This is the simplest version of Kendall's Tau and is used when there are no ties in the data.</p>
-                                    <span class="math">\[\tau_a = \frac{n_c - n_d}{\frac{1}{2}n(n-1)}\]</span>
-                                    <p> If there are ties in the data, this formula will not produce a value of <span class="math">\(-1\)</span> or <span class="math">\(+1\)</span> even if there is a perfect monotonic relationship. This is because it does not account for ties.</p>
-                                    <br>
-                                    <h4>Kendall's Tau-b (<span class="math">\(\tau_b\)</span>)</h4>
-                                    <p>This version is used when there are ties in the data. It adjusts the formula to account for ties in either or both variables.</p>
-                                    <div class="formula-block">
-                                    <p class="math">\[\tau_b = \frac{n_c - n_d}{\sqrt{(n_0 - n_1)(n_0 - n_2)}}\]</p>
-                                    <ul>
-                                        <li><span class="math">\(\tau_b\)</span>: Represents the Kendall's Tau-b correlation coefficient.</li>
-                                        <li><span class="math">\(n_c\)</span>: Represents the number of concordant pairs.</li>
-                                        <li><span class="math">\(n_d\)</span>: Represents the number of discordant pairs.</li>
-                                        <li><span class="math">\(n_0 = \frac{1}{2}n(n-1)\)</span>: the total number of pairs of data.</li>
-                                        <li><span class="math">\(n_1 = \sum{\frac{1}{2}t_i(t_i-1)} \)</span>: where <span class="math">\(t_i\)</span> represents the number of tied values in each group of ties in the variable <span class="math">\(x\)</span>.</li>
-                                        <li><span class="math">\(n_2 = \sum{\frac{1}{2}u_i(u_i-1)} \)</span>: where <span class="math">\(u_i\)</span> represents the number of tied values in each group of ties in the variable <span class="math">\(y\)</span>.</li>
-                                    </ul>
-                                    </div>
-                                    <p>The denominator is adjusted to account for the fact that ties reduce the number of pairs that can be either concordant or discordant. It takes into account the number of ties in the two variables.</p>
-                                    <p>The Kendall’s tau-b is between -1 and 1</p>
-                                    <br>
-                                    <h4>Kendall's Tau-c (<span class="math">\(\tau_c\)</span>)</h4>
-                                    <p>This version is used specifically when you have data in a contingency table (a table where both variables are categorical) and when the table is not square (i.e., the number of rows does not equal the number of columns). It is also adjusted for ties.</p>
-                                    <div class="formula-block">
-                                    <p class="math">\[\tau_c = \frac{2(n_c - n_d)}{n^2 \frac{(m - 1)}{m}}\]</p>
-                                    <ul>
-                                        <li><span class="math">\(\tau_c\)</span>: Represents the Kendall's Tau-c correlation coefficient.</li>
-                                        <li><span class="math">\(n_c\)</span>: Represents the number of concordant pairs.</li>
-                                        <li><span class="math">\(n_d\)</span>: Represents the number of discordant pairs.</li>
-                                        <li><span class="math">\(n\)</span>: Represents the total number of observations.</li>
-                                        <li><span class="math">\(m\)</span>: The smaller of the number of rows and the number of columns in the contingency table.</li>
-                                    </ul>
-                                    </div>
-                                    <p>Kendall's Tau-c is designed to work better with non-square tables, which are common with categorical data. It is also within -1 to 1.</p>
-                                    <p>Here is the code to implement Kendall’s Tau and it's variants</p>
-                                    <pre class="code-block"><code class="language-python">
+                      <subsection>
+                        <h2>Kendall’s Tau</h2>
+                        <p>
+                          Kendall's Tau (often denoted by the Greek letter
+                          <span class="math">\(\tau\)</span>) is a
+                          non-parametric statistical test used to measure the
+                          ordinal association between two measured quantities.
+                          It assesses the monotonic relationship between two
+                          variables, which means it evaluates whether the
+                          variables tend to increase or decrease together, but
+                          not necessarily at a constant rate (like in a linear
+                          relationship).
+                        </p>
+                        <p>
+                          Kendall's Tau looks at pairs of observations and
+                          determines whether they are concordant or discordant:
+                        </p>
+                        <ul>
+                          <li>
+                            Concordant: Two pairs of data are concordant if the
+                            ranks for both elements agree. If
+                            <span class="math">\(x\)</span> and
+                            <span class="math">\(y\)</span> are two variables,
+                            and <span class="math">\(x_i > x_j\)</span> then if
+                            <span class="math">\(y_i > y_j\)</span> or if
+                            <span class="math">\(x_i < x_j\)</span> and
+                            <span class="math">\(y_i < y_j\)</span>, the pair
+                            are concordant.
+                          </li>
+                          <li>
+                            Discordant: Two pairs of data are discordant if the
+                            ranks for both elements disagree. If x and y are two
+                            variables, and
+                            <span class="math">\(x_i < x_j\)</span> then if
+                            <span class="math">\(y_i > y_j\)</span> or
+                            vice-versa, the pair are discordant.
+                          </li>
+                          <li>
+                            Tied: If any element of a pair have the same value,
+                            then the pair are tied.
+                          </li>
+                        </ul>
+                        <p>
+                          The Kendall's Tau correlation coefficient (<span
+                            class="math"
+                            >\(\tau\)</span
+                          >) is calculated as follows:
+                        </p>
+                        <div class="formula-block">
+                          <p class="math">
+                            \[\tau = \frac{n_c - n_d}{\frac{1}{2}n(n-1)}\]
+                          </p>
+                          <ul>
+                            <li>
+                              <span class="math">\(\tau\)</span>: Represents the
+                              Kendall's Tau correlation coefficient.
+                            </li>
+                            <li>
+                              <span class="math">\(n_c\)</span>: Represents the
+                              number of concordant pairs.
+                            </li>
+                            <li>
+                              <span class="math">\(n_d\)</span>: Represents the
+                              number of discordant pairs.
+                            </li>
+                            <li>
+                              <span class="math">\(n\)</span>: Represents the
+                              total number of observations.
+                            </li>
+                            <li>
+                              <span class="math">\(\frac{1}{2}n(n-1)\)</span>:
+                              the total number of pairs of data.
+                            </li>
+                          </ul>
+                        </div>
+                        <h3>Adjusting for Ties</h3>
+                        <p>
+                          As we've discussed, Kendall's Tau (<span class="math"
+                            >\(\tau\)</span
+                          >) measures the monotonic relationship between two
+                          variables. However, there are a few variations of
+                          Kendall's Tau that are used in different situations,
+                          primarily when dealing with ties in the data:
+                        </p>
+                        <h4>
+                          Kendall's Tau-a (<span class="math">\(\tau_a\)</span>)
+                        </h4>
+                        <p>
+                          This is the simplest version of Kendall's Tau and is
+                          used when there are no ties in the data.
+                        </p>
+                        <span class="math"
+                          >\[\tau_a = \frac{n_c -
+                          n_d}{\frac{1}{2}n(n-1)}\]</span
+                        >
+                        <p>
+                          If there are ties in the data, this formula will not
+                          produce a value of <span class="math">\(-1\)</span> or
+                          <span class="math">\(+1\)</span> even if there is a
+                          perfect monotonic relationship. This is because it
+                          does not account for ties.
+                        </p>
+
+                        <h4>
+                          Kendall's Tau-b (<span class="math">\(\tau_b\)</span>)
+                        </h4>
+                        <p>
+                          This version is used when there are ties in the data.
+                          It adjusts the formula to account for ties in either
+                          or both variables.
+                        </p>
+                        <div class="formula-block">
+                          <p class="math">
+                            \[\tau_b = \frac{n_c - n_d}{\sqrt{(n_0 - n_1)(n_0 -
+                            n_2)}}\]
+                          </p>
+                          <ul>
+                            <li>
+                              <span class="math">\(\tau_b\)</span>: Represents
+                              the Kendall's Tau-b correlation coefficient.
+                            </li>
+                            <li>
+                              <span class="math">\(n_c\)</span>: Represents the
+                              number of concordant pairs.
+                            </li>
+                            <li>
+                              <span class="math">\(n_d\)</span>: Represents the
+                              number of discordant pairs.
+                            </li>
+                            <li>
+                              <span class="math"
+                                >\(n_0 = \frac{1}{2}n(n-1)\)</span
+                              >: the total number of pairs of data.
+                            </li>
+                            <li>
+                              <span class="math"
+                                >\(n_1 = \sum{\frac{1}{2}t_i(t_i-1)} \)</span
+                              >: where
+                              <span class="math">\(t_i\)</span> represents the
+                              number of tied values in each group of ties in the
+                              variable <span class="math">\(x\)</span>.
+                            </li>
+                            <li>
+                              <span class="math"
+                                >\(n_2 = \sum{\frac{1}{2}u_i(u_i-1)} \)</span
+                              >: where
+                              <span class="math">\(u_i\)</span> represents the
+                              number of tied values in each group of ties in the
+                              variable <span class="math">\(y\)</span>.
+                            </li>
+                          </ul>
+                        </div>
+                        <p>
+                          The denominator is adjusted to account for the fact
+                          that ties reduce the number of pairs that can be
+                          either concordant or discordant. It takes into account
+                          the number of ties in the two variables.
+                        </p>
+                        <p>The Kendall’s tau-b is between -1 and 1</p>
+
+                        <h4>
+                          Kendall's Tau-c (<span class="math">\(\tau_c\)</span>)
+                        </h4>
+                        <p>
+                          This version is used specifically when you have data
+                          in a contingency table (a table where both variables
+                          are categorical) and when the table is not square
+                          (i.e., the number of rows does not equal the number of
+                          columns). It is also adjusted for ties.
+                        </p>
+                        <div class="formula-block">
+                          <p class="math">
+                            \[\tau_c = \frac{2(n_c - n_d)}{n^2 \frac{(m -
+                            1)}{m}}\]
+                          </p>
+                          <ul>
+                            <li>
+                              <span class="math">\(\tau_c\)</span>: Represents
+                              the Kendall's Tau-c correlation coefficient.
+                            </li>
+                            <li>
+                              <span class="math">\(n_c\)</span>: Represents the
+                              number of concordant pairs.
+                            </li>
+                            <li>
+                              <span class="math">\(n_d\)</span>: Represents the
+                              number of discordant pairs.
+                            </li>
+                            <li>
+                              <span class="math">\(n\)</span>: Represents the
+                              total number of observations.
+                            </li>
+                            <li>
+                              <span class="math">\(m\)</span>: The smaller of
+                              the number of rows and the number of columns in
+                              the contingency table.
+                            </li>
+                          </ul>
+                        </div>
+                        <p>
+                          Kendall's Tau-c is designed to work better with
+                          non-square tables, which are common with categorical
+                          data. It is also within -1 to 1.
+                        </p>
+                        <p>
+                          Here is the code to implement Kendall’s Tau and it's
+                          variants
+                        </p>
+                        <pre class="code-block"><code class="language-python">
 # Kendall’s Tau-a
 from scipy.stats import kendalltau
 import pandas as pd
@@ -361,54 +756,162 @@ tau_c = pg.corr(x,y, method="kendall")
 print("Kendall's tau-c:\n", tau_c)
 
                                     </code></pre>
+                      </subsection>
 
-                                </section>
-                                <br></br>
-
-                                <section>
-                                    <h2>ANOVA</h2>
-                                    <p>The means of two or more groups can be compared using the statistical method known as ANOVA (Analysis of Variance). It is used to assess if there is a statistically significant difference between the means of two or more groups. ANOVA can be used for categorical and continuous independent variables.</p>
-                                    <p>The premise of ANOVA is to compare the total variability of a collection of observations to the variability across groups and within each group. The difference between the means of each group and the overall mean is the variability between groups. Each observation’s deviation from the group mean represents the variability within each group.</p>
-                                    <p>The null hypothesis that all groups’ means are equal is tested using ANOVA using the <span class="math">\(F\)</span>-test statistic. The <span class="math">\(F\)</span>-test statistic is determined by dividing the variability between groups by the variability within groups. The null hypothesis is rejected if the <span class="math">\(F\)</span>-test statistic exceeds the critical value derived from the <span class="math">\(F\)</span>-distribution with the proper number of degrees of freedom.</p>
-                                    <p>Following is the mathematical expression for ANOVA:</p>                                 
-                                    <div class="formula-block">
-                                        <p class="math">\[ F = \frac{MSB}{MSW} \] </p>
-                                        <ul>
-                                            <li><span class="math">\(F\)</span>: the F-statistic</li>
-                                            <li><span class="math">\(MSB\)</span>:  the Mean Square Between Groups</li>
-                                            <li><span class="math">\(MSW\)</span>: the Mean Square Within Groups</li>
-                                        </ul>
-                                        <p>where</p>
-                                        <p class="math">\[ MSB = \frac{SSB}{dfB} \]</p>
-                                        <ul>
-                                            <li><span class="math">\(SSB\)</span>: the Sum of Squares Between Groups: <span class="math">\(SSB = \sum_{i=1}^{k} n_i (\bar{x}_i - \bar{x})^2 \)</span> </li>
-                                            <li><span class="math">\(dfB\)</span>: the Degrees of Freedom Between Groups: <span class="math">\(dfB = k - 1\)</span> </li>
-                                            <li><span class="math">\(k\)</span>: The number of groups.</li>
-                                            <li><span class="math">\(\bar{x}_i\)</span>: The mean of the *i*-th group.</li>
-                                            <li><span class="math">\(n_i\)</span>: The number of observations in the *i*-th group.</li>
-                                            <li><span class="math">\(\bar{x}\)</span>: The overall mean (grand mean) of all observations.</li>
-                                        </ul>
-                                        <p class="math">\[ MSW = \frac{SSW}{dfW} \]</p>
-                                        <ul>
-                                            <li><span class="math">\(SSW\)</span>: the Sum of Squares Within Groups: <span class="math">\(SSW = \sum_{i=1}^{k} \sum_{j=1}^{n_i} (x_{ij} - \bar{x}_i)^2 \)</span> </li>
-                                            <li><span class="math">\(dfW\)</span>: The Degrees of Freedom Within Groups: <span class="math">\(dfW = N - k\)</span> </li>
-                                            <li><span class="math">\(N\)</span>: The total number of observations.</li>
-                                            <li><span class="math">\(x_{ij}\)</span>: The *j*-th observation in the *i*-th group.</li>
-                                        </ul>
-                                        <p>with</p>
-                                        <p class="math">\[ SST = SSB + SSW\]</p>
-                                        <p>and</p>
-                                        <p class="math">\[SST = \sum_{i=1}^{k} \sum_{j=1}^{n_i} (x_{ij} - \bar{x})^2\]</p>
-                                        <ul>
-                                            <li><span class="math">\(SST\)</span>: the Total Sum of Squares</li>
-                                            <li><span class="math">\(dfT\)</span>: The Total Degrees of Freedom: <span class="math">\(dfT = N - 1\)</span></li>
-                                        </ul>
-                                    </div>
-                                    <p>The F-statistic is then compared to an F-distribution with <span class="math">\(dfB\)</span> and <span class="math">\(dfW\)</span> degrees of freedom to obtain a <span class="math">p</span>-value.
-                                    If the <span class="math">p</span>-value is smaller than a significance level <span class="math">\(\alpha\)</span> (e.g., <span class="math">0.05</span>), the null hypothesis can be rejected.
-                                    A large <span class="math">F</span>-statistic (much greater than <span class="math">1</span>) indicates that the variability *between* groups is much larger than the variability *within* groups. This is evidence *against* the null hypothesis (that all group means are equal). A small <span class="math">F</span>-statistic suggests that the variability between groups is not much different from the variability within groups. This is evidence *in favor of* the null hypothesis (that all group means are equal).</p>
-                                    <p>Here is the implementation of ANOVA test on the same Breast Cancer Wisconsin dataset from UCI Machine Learning Repository:</p>
-                                    <pre class="code-block"><code class="language-python">
+                      <subsection>
+                        <h2>ANOVA</h2>
+                        <p>
+                          The means of two or more groups can be compared using
+                          the statistical method known as ANOVA (Analysis of
+                          Variance). It is used to assess if there is a
+                          statistically significant difference between the means
+                          of two or more groups. ANOVA can be used for
+                          categorical and continuous independent variables.
+                        </p>
+                        <p>
+                          The premise of ANOVA is to compare the total
+                          variability of a collection of observations to the
+                          variability across groups and within each group. The
+                          difference between the means of each group and the
+                          overall mean is the variability between groups. Each
+                          observation’s deviation from the group mean represents
+                          the variability within each group.
+                        </p>
+                        <p>
+                          The null hypothesis that all groups’ means are equal
+                          is tested using ANOVA using the
+                          <span class="math">\(F\)</span>-test statistic. The
+                          <span class="math">\(F\)</span>-test statistic is
+                          determined by dividing the variability between groups
+                          by the variability within groups. The null hypothesis
+                          is rejected if the
+                          <span class="math">\(F\)</span>-test statistic exceeds
+                          the critical value derived from the
+                          <span class="math">\(F\)</span>-distribution with the
+                          proper number of degrees of freedom.
+                        </p>
+                        <p>
+                          Following is the mathematical expression for ANOVA:
+                        </p>
+                        <div class="formula-block">
+                          <p class="math">\[ F = \frac{MSB}{MSW} \]</p>
+                          <ul>
+                            <li>
+                              <span class="math">\(F\)</span>: the F-statistic
+                            </li>
+                            <li>
+                              <span class="math">\(MSB\)</span>: the Mean Square
+                              Between Groups
+                            </li>
+                            <li>
+                              <span class="math">\(MSW\)</span>: the Mean Square
+                              Within Groups
+                            </li>
+                          </ul>
+                          <p>where</p>
+                          <p class="math">\[ MSB = \frac{SSB}{dfB} \]</p>
+                          <ul>
+                            <li>
+                              <span class="math">\(SSB\)</span>: the Sum of
+                              Squares Between Groups:
+                              <span class="math"
+                                >\(SSB = \sum_{i=1}^{k} n_i (\bar{x}_i -
+                                \bar{x})^2 \)</span
+                              >
+                            </li>
+                            <li>
+                              <span class="math">\(dfB\)</span>: the Degrees of
+                              Freedom Between Groups:
+                              <span class="math">\(dfB = k - 1\)</span>
+                            </li>
+                            <li>
+                              <span class="math">\(k\)</span>: The number of
+                              groups.
+                            </li>
+                            <li>
+                              <span class="math">\(\bar{x}_i\)</span>: The mean
+                              of the *i*-th group.
+                            </li>
+                            <li>
+                              <span class="math">\(n_i\)</span>: The number of
+                              observations in the *i*-th group.
+                            </li>
+                            <li>
+                              <span class="math">\(\bar{x}\)</span>: The overall
+                              mean (grand mean) of all observations.
+                            </li>
+                          </ul>
+                          <p class="math">\[ MSW = \frac{SSW}{dfW} \]</p>
+                          <ul>
+                            <li>
+                              <span class="math">\(SSW\)</span>: the Sum of
+                              Squares Within Groups:
+                              <span class="math"
+                                >\(SSW = \sum_{i=1}^{k} \sum_{j=1}^{n_i} (x_{ij}
+                                - \bar{x}_i)^2 \)</span
+                              >
+                            </li>
+                            <li>
+                              <span class="math">\(dfW\)</span>: The Degrees of
+                              Freedom Within Groups:
+                              <span class="math">\(dfW = N - k\)</span>
+                            </li>
+                            <li>
+                              <span class="math">\(N\)</span>: The total number
+                              of observations.
+                            </li>
+                            <li>
+                              <span class="math">\(x_{ij}\)</span>: The *j*-th
+                              observation in the *i*-th group.
+                            </li>
+                          </ul>
+                          <p>with</p>
+                          <p class="math">\[ SST = SSB + SSW\]</p>
+                          <p>and</p>
+                          <p class="math">
+                            \[SST = \sum_{i=1}^{k} \sum_{j=1}^{n_i} (x_{ij} -
+                            \bar{x})^2\]
+                          </p>
+                          <ul>
+                            <li>
+                              <span class="math">\(SST\)</span>: the Total Sum
+                              of Squares
+                            </li>
+                            <li>
+                              <span class="math">\(dfT\)</span>: The Total
+                              Degrees of Freedom:
+                              <span class="math">\(dfT = N - 1\)</span>
+                            </li>
+                          </ul>
+                        </div>
+                        <p>
+                          The F-statistic is then compared to an F-distribution
+                          with <span class="math">\(dfB\)</span> and
+                          <span class="math">\(dfW\)</span> degrees of freedom
+                          to obtain a <span class="math">p</span>-value. If the
+                          <span class="math">p</span>-value is smaller than a
+                          significance level
+                          <span class="math">\(\alpha\)</span> (e.g.,
+                          <span class="math">0.05</span>), the null hypothesis
+                          can be rejected. A large
+                          <span class="math">F</span>-statistic (much greater
+                          than <span class="math">1</span>) indicates that the
+                          variability *between* groups is much larger than the
+                          variability *within* groups. This is evidence
+                          *against* the null hypothesis (that all group means
+                          are equal). A small
+                          <span class="math">F</span>-statistic suggests that
+                          the variability between groups is not much different
+                          from the variability within groups. This is evidence
+                          *in favor of* the null hypothesis (that all group
+                          means are equal).
+                        </p>
+                        <p>
+                          Here is the implementation of ANOVA test on the same
+                          Breast Cancer Wisconsin dataset from UCI Machine
+                          Learning Repository:
+                        </p>
+                        <pre class="code-block"><code class="language-python">
 import pandas as pd
 import numpy as np
 from scipy import stats
@@ -434,41 +937,146 @@ for i in range(X.shape[1]):
     else:
         print("\tFail to reject the null hypothesis, means are equal.")
                                     </code></pre>
-                                    <p>In this example, we load the breast cancer Wisconsin dataset and extract the diagnosis column and the features. The ANOVA test is then performed for each feature using the <span class="code">stats.f_oneway</span> function from the <span class="code">scipy</span> library. The results of the ANOVA test, including the <span class="math">\(F\)</span>-value and <span class="math">\(p\)</span>-value, are printed for each feature. Finally, we interpret the results by checking if the <span class="math">\(p\)</span>-value is less than the significance level <span class="math">\(\alpha\)</span> (in this case, <span class="math">\(0.05\)</span>). If it is, we reject the null hypothesis and conclude that the means of the groups are not equal. If not, we fail to reject the null hypothesis and conclude that the means are equal. We can notice that for the features in position 10, 12, 15, 19 & 20, our null hypothesis is indeed correct that the means of these groups are equal.</p>
-                                    <p>ANOVA is a robust method for comparing the means of different groups and determining whether there is a statistically significant difference between them. The fundamental concept underlying ANOVA is to compare the total variability of a collection of data to the variability between groups and within each group, and to use the <span class="math">\(F\)</span>-test statistic to test the null hypothesis that all group means are equal.</p>
-                                </section>
-                                <br></br>
+                        <p>
+                          In this example, we load the breast cancer Wisconsin
+                          dataset and extract the diagnosis column and the
+                          features. The ANOVA test is then performed for each
+                          feature using the
+                          <span class="code">stats.f_oneway</span> function from
+                          the <span class="code">scipy</span> library. The
+                          results of the ANOVA test, including the
+                          <span class="math">\(F\)</span>-value and
+                          <span class="math">\(p\)</span>-value, are printed for
+                          each feature. Finally, we interpret the results by
+                          checking if the <span class="math">\(p\)</span>-value
+                          is less than the significance level
+                          <span class="math">\(\alpha\)</span> (in this case,
+                          <span class="math">\(0.05\)</span>). If it is, we
+                          reject the null hypothesis and conclude that the means
+                          of the groups are not equal. If not, we fail to reject
+                          the null hypothesis and conclude that the means are
+                          equal. We can notice that for the features in position
+                          10, 12, 15, 19 & 20, our null hypothesis is indeed
+                          correct that the means of these groups are equal.
+                        </p>
+                        <p>
+                          ANOVA is a robust method for comparing the means of
+                          different groups and determining whether there is a
+                          statistically significant difference between them. The
+                          fundamental concept underlying ANOVA is to compare the
+                          total variability of a collection of data to the
+                          variability between groups and within each group, and
+                          to use the <span class="math">\(F\)</span>-test
+                          statistic to test the null hypothesis that all group
+                          means are equal.
+                        </p>
+                      </subsection>
 
-                                <section>
-                                    <h2>Chi-Squared Test</h2>
-                                    <p>The chi-squared test is a statistical test used to detect if two categorical variables are significantly associated. The test is based on the chi-squared statistic, which measures the difference between the observed frequencies of the categories in the sample data and the predicted frequencies on the premise that the two variables are independent. The expected frequencies are computed using the sample data’s marginal sums of the categories.</p>
-                                    <p>The formula for the chi-squared statistic is:</p>
-                                    <div class="formula-block">
-                                        <p class="math">\[\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}\]</p>
-                                        <ul>
-                                            <li><span class="math">\(\chi^2\)</span>: The Chi-squared test statistic.</li>
-                                            <li><span class="math">\(O_i\)</span>: The observed frequency for category \(i\).</li>
-                                            <li><span class="math">\(E_i\)</span>: The expected frequency for category \(i\).</li>
-                                        </ul>
-                                    </div>
-                                    <p>where, the expected frequency of the categories are computed under the assumption that the variables are independent. If we have a contingency table where the rows are \(i\) and the column are \(j\), the expected frequency is computed as</p>
-                                    <div class="formula-block">
-                                        <p class="math">\[E_{ij} = \frac{(\text{row total for row } i) \times (\text{column total for column } j)}{\text{grand total}} \] </p>
-                                        <ul>
-                                            <li><span class="math">\(E_{ij}\)</span>: the expected frequency of the cell in row i and column j.</li>
-                                            <li><span class="math">\((\text{row total for row } i)\)</span>: the sum of all the cells in row i.</li>
-                                            <li><span class="math">\((\text{column total for column } j)\)</span>: the sum of all the cells in column j.</li>
-                                            <li><span class="math">\(\text{grand total}\)</span>: the total of all the cells.</li>
-                                        </ul>
-                                    </div>
-                                    <p>To interpret the Chi-squared statistic, we will need the degrees of freedom. It is computed as follow:</p>
-                                    <div class="formula-block">
-                                        <p class="math">\[ df = (\text{number of rows} - 1) \times (\text{number of columns} - 1)\]</p>
-                                    </div>
-                                    <p>A large Chi-squared statistic means there's a big difference between the observed and expected frequencies. This is evidence against the null hypothesis (that the variables are independent). A small Chi-squared statistic means the observed and expected frequencies are similar. This is evidence in favor of the null hypothesis (that the variables are independent).To determine if the Chi-squared statistic is statistically significant, you compare it to a Chi-squared distribution with the calculated degrees of freedom. This comparison gives you a <span class="math">\(p\)</span>-value.</p>
-                                    <p>A small p-value (typically less than 0.05): You reject the null hypothesis. There is a statistically significant association between the variables. A large p-value (greater than 0.05): You fail to reject the null hypothesis. There's no statistically significant association between the variables.</p>
-                                    <p>Here is the code to perform Chi-Squared Test on the same Breast Cancer Wisconsin dataset from UCI Machine Learning Repository:</p>
-                                    <pre class="code-block"><code class="language-python">
+                      <subsection>
+                        <h2>Chi-Squared Test</h2>
+                        <p>
+                          The chi-squared test is a statistical test used to
+                          detect if two categorical variables are significantly
+                          associated. The test is based on the chi-squared
+                          statistic, which measures the difference between the
+                          observed frequencies of the categories in the sample
+                          data and the predicted frequencies on the premise that
+                          the two variables are independent. The expected
+                          frequencies are computed using the sample data’s
+                          marginal sums of the categories.
+                        </p>
+                        <p>The formula for the chi-squared statistic is:</p>
+                        <div class="formula-block">
+                          <p class="math">
+                            \[\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}\]
+                          </p>
+                          <ul>
+                            <li>
+                              <span class="math">\(\chi^2\)</span>: The
+                              Chi-squared test statistic.
+                            </li>
+                            <li>
+                              <span class="math">\(O_i\)</span>: The observed
+                              frequency for category \(i\).
+                            </li>
+                            <li>
+                              <span class="math">\(E_i\)</span>: The expected
+                              frequency for category \(i\).
+                            </li>
+                          </ul>
+                        </div>
+                        <p>
+                          where, the expected frequency of the categories are
+                          computed under the assumption that the variables are
+                          independent. If we have a contingency table where the
+                          rows are \(i\) and the column are \(j\), the expected
+                          frequency is computed as
+                        </p>
+                        <div class="formula-block">
+                          <p class="math">
+                            \[E_{ij} = \frac{(\text{row total for row } i)
+                            \times (\text{column total for column }
+                            j)}{\text{grand total}} \]
+                          </p>
+                          <ul>
+                            <li>
+                              <span class="math">\(E_{ij}\)</span>: the expected
+                              frequency of the cell in row i and column j.
+                            </li>
+                            <li>
+                              <span class="math"
+                                >\((\text{row total for row } i)\)</span
+                              >: the sum of all the cells in row i.
+                            </li>
+                            <li>
+                              <span class="math"
+                                >\((\text{column total for column } j)\)</span
+                              >: the sum of all the cells in column j.
+                            </li>
+                            <li>
+                              <span class="math">\(\text{grand total}\)</span>:
+                              the total of all the cells.
+                            </li>
+                          </ul>
+                        </div>
+                        <p>
+                          To interpret the Chi-squared statistic, we will need
+                          the degrees of freedom. It is computed as follow:
+                        </p>
+                        <div class="formula-block">
+                          <p class="math">
+                            \[ df = (\text{number of rows} - 1) \times
+                            (\text{number of columns} - 1)\]
+                          </p>
+                        </div>
+                        <p>
+                          A large Chi-squared statistic means there's a big
+                          difference between the observed and expected
+                          frequencies. This is evidence against the null
+                          hypothesis (that the variables are independent). A
+                          small Chi-squared statistic means the observed and
+                          expected frequencies are similar. This is evidence in
+                          favor of the null hypothesis (that the variables are
+                          independent).To determine if the Chi-squared statistic
+                          is statistically significant, you compare it to a
+                          Chi-squared distribution with the calculated degrees
+                          of freedom. This comparison gives you a
+                          <span class="math">\(p\)</span>-value.
+                        </p>
+                        <p>
+                          A small p-value (typically less than 0.05): You reject
+                          the null hypothesis. There is a statistically
+                          significant association between the variables. A large
+                          p-value (greater than 0.05): You fail to reject the
+                          null hypothesis. There's no statistically significant
+                          association between the variables.
+                        </p>
+                        <p>
+                          Here is the code to perform Chi-Squared Test on the
+                          same Breast Cancer Wisconsin dataset from UCI Machine
+                          Learning Repository:
+                        </p>
+                        <pre class="code-block"><code class="language-python">
 import pandas as pd
 from scipy.stats import chi2_contingency
 
@@ -495,62 +1103,125 @@ for col in predictors.columns:
         print("Fail to reject the null hypothesis, there is no significant association between the diagnosis and the predictor variable", col, ".")
     print()
                                         </code></pre>
-                                    <p>In this code, the breast cancer Wisconsin dataset is loaded, and the diagnosis column is converted to a categorical variable. A subset of the predictor variables is selected, and a contingency table is created for each predictor variable. The <span class="code">chi2_contingency</span> function from the <span class="code">scipy</span> library is used to perform the chi-squared test on each contingency table. The results, including the chi-squared statistic and the p-value, are printed for each predictor variable. The p-value is then used to interpret the results and determine if there is a significant association between the diagnosis and the predictor variable. From our analysis, we find that only for features in position 2, 22, 29, contain significant association and hence the null hypothesis is rejected, rest of them do not contain significant association.</p>
-                                </section>
-                                <br></br>
+                        <p>
+                          In this code, the breast cancer Wisconsin dataset is
+                          loaded, and the diagnosis column is converted to a
+                          categorical variable. A subset of the predictor
+                          variables is selected, and a contingency table is
+                          created for each predictor variable. The
+                          <span class="code">chi2_contingency</span> function
+                          from the <span class="code">scipy</span> library is
+                          used to perform the chi-squared test on each
+                          contingency table. The results, including the
+                          chi-squared statistic and the p-value, are printed for
+                          each predictor variable. The p-value is then used to
+                          interpret the results and determine if there is a
+                          significant association between the diagnosis and the
+                          predictor variable. From our analysis, we find that
+                          only for features in position 2, 22, 29, contain
+                          significant association and hence the null hypothesis
+                          is rejected, rest of them do not contain significant
+                          association.
+                        </p>
+                      </subsection>
+                    </subsection>
+                  </section>
 
-                                <h2>Conclusion</h2>
-                                <p>In this article, we noticed that Pearson’s correlation coefficient measures the linear relationship between two continuous variables. It is calculated as the covariance of the two variables divided by the product of their standard deviations. On the other hand, Spearman’s rank correlation is a non-parametric method used to measure the monotonic relationship between two continuous variables. It is calculated as the Pearson’s correlation coefficient of the ranked variables, rather than the original variables. ANOVA, or Analysis of Variance, is a statistical method used to test the difference in means between two or more groups. Chi-squared test is a statistical method used to test the independence between two categorical variables. These methods commonly used in feature selection to identify the most important features that are related to the target variable.</p>
-                                <p>In conclusion, feature selection is an important phase in the machine learning process because it helps to increase model performance and minimize complexity. There are several feature selection strategies accessible, each with its own set of advantages and disadvantages. The feature selection technique used is determined by the project’s specific requirements, the nature of the data, and the available computational resources.</p>
-
-                                <div id="disqus_thread"></div>
-
-                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-                                <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-
-                                <script src="../../../../../js/inlineDisqussions.js"></script>
-                                <script src="../../../../../js/disqus.js"></script>
-                            </div>
-                        </div>
-                        <div class="col-md-4" id="toc-wrapper">
-                        </div>
-                    </div>
-                </div>
-            </main>
-        
-
-            <footer id="footer">
-                <div class="container">
-                    Subscribe to the <a href="../../rss.xml">RSS feed</a>.
-                    </br>
-                    Built by <a href="https://github.com/oinkina">Oinkina</a> with
-                    <a href="http://jaspervdj.be/hakyll">Hakyll</a> 
-                    using <a href="http://getbootstrap.com/">Bootstrap</a>, 
-                    <a href="http://www.mathjax.org/">MathJax</a>, and
-                    <a href="http://disqus.com/">Disqus</a>.
-                </div>
-            </footer>
+                  <h2>Conclusion</h2>
+                  <p>
+                    In this article, we noticed that Pearson’s correlation
+                    coefficient measures the linear relationship between two
+                    continuous variables. It is calculated as the covariance of
+                    the two variables divided by the product of their standard
+                    deviations. On the other hand, Spearman’s rank correlation
+                    is a non-parametric method used to measure the monotonic
+                    relationship between two continuous variables. It is
+                    calculated as the Pearson’s correlation coefficient of the
+                    ranked variables, rather than the original variables. ANOVA,
+                    or Analysis of Variance, is a statistical method used to
+                    test the difference in means between two or more groups.
+                    Chi-squared test is a statistical method used to test the
+                    independence between two categorical variables. These
+                    methods commonly used in feature selection to identify the
+                    most important features that are related to the target
+                    variable.
+                  </p>
+                  <p>
+                    In conclusion, feature selection is an important phase in
+                    the machine learning process because it helps to increase
+                    model performance and minimize complexity. There are several
+                    feature selection strategies accessible, each with its own
+                    set of advantages and disadvantages. The feature selection
+                    technique used is determined by the project’s specific
+                    requirements, the nature of the data, and the available
+                    computational resources.
+                  </p>
+                </section>
+                <section>
+                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+                  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+                </section>
+              </div>
+              <div class="col-md-4" id="toc-wrapper"></div>
+            </div>
+          </div>
         </div>
+      </main>
+    </div>
+
+    <footer id="footer" class="footer position-relative light-background">
+      <div class="container">
+        <div class="copyright text-center">
+          <p>
+            © <span>Copyright</span>
+            <strong class="px-1 sitename">Debanjan Saha</strong>
+            <span>All Rights Reserved</span>
+          </p>
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you've purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+          Designed by
+          <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by
+          <a href="https://themewagon.com">ThemeWagon</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scroll Top -->
+    <a
+      href="#"
+      id="scroll-top"
+      class="scroll-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
 
     <!-- jQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="../../../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../../../assets/js/main.js"></script>
 
-    <script src="../../bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../../../../assets/highlight/highlight.pack.js"></script>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
 
-    <script src="../../../../../highlight/highlight.pack.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../../../../../assets/js/footnotes.js"></script>
+    <script src="../../../../../assets/js/bootstrap-carousel.js"></script>
+    <script src="../../../../../assets/js/inlineDisqussions.js"></script>
+    <script src="../../../../../assets/js/toc.js"></script>
 
-    <script src="../../../../../js/footnotes.js"></script>
-    <script src="../../../../../js/bootstrap-carousel.js"></script>
-    <script src="../../../../../js/inlineDisqussions.js"></script>
-    <script src="../../../../../js/toc.js"></script>
+    <script
+      type="text/javascript"
+      src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    ></script>
 
-
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-    <noscript>Enable JavaScript for footnotes, Disqus comments, and other cool stuff.</noscript>
-
-    </body>
-
+    <noscript
+      >Enable JavaScript for footnotes, Disqus comments, and other cool
+      stuff.</noscript
+    >
+  </body>
 </html>

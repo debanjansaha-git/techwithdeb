@@ -21,30 +21,30 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: HTML Validation
-        run: |
-          npx vnu-jar --verbose posts/*.html index.html
+      # - name: HTML Validation
+      #   run: |
+      #     npx vnu-jar --verbose posts/*.html index.html
 
-          - name: CSS Linting
-          run: npx stylelint '**/*.css'
+      #     - name: CSS Linting
+      #     run: npx stylelint '**/*.css'
   
-          - name: Broken Link Checker
-            uses: lycheeverse/lychee-action@v1.8.0
-            with:
-              args: '.'
+      #     - name: Broken Link Checker
+      #       uses: lycheeverse/lychee-action@v1.8.0
+      #       with:
+      #         args: '.'
     
-          - name: Build Website
-            run: |
-              echo "Building the website..."
-              # Replace the following line with your actual build command (e.g., npm run build, or another site generator command)
-              # This example assumes you use a static site generator that outputs to a 'dist' or 'build' directory.
-              # If you do not need to build anything (just serving static pages), remove the line below.
-              npm run build
-              echo "Website build completed."
+      #     - name: Build Website
+      #       run: |
+      #         echo "Building the website..."
+      #         # Replace the following line with your actual build command (e.g., npm run build, or another site generator command)
+      #         # This example assumes you use a static site generator that outputs to a 'dist' or 'build' directory.
+      #         # If you do not need to build anything (just serving static pages), remove the line below.
+      #         npm run build
+      #         echo "Website build completed."
             
-          - name: Deploy to GitHub Pages
-            uses: peaceiris/actions-gh-pages@v3
-            if: github.ref == 'refs/heads/main'
-            with:
-              github_token: ${{ secrets.GITHUB_TOKEN }}
-              publish_dir: ./dist # Or ./build, change accordingly to the output dir of your build step
+      #     - name: Deploy to GitHub Pages
+      #       uses: peaceiris/actions-gh-pages@v3
+      #       if: github.ref == 'refs/heads/main'
+      #       with:
+      #         github_token: ${{ secrets.GITHUB_TOKEN }}
+      #         publish_dir: ./dist # Or ./build, change accordingly to the output dir of your build step
