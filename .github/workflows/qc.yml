@@ -13,15 +13,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js (Optional, only if needed)
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # Use the version you require
-          cache: 'npm' # Only include this line if you need to cache node_modules
+          node-version: '18'
+          cache: 'npm'
 
-      - name: Install dependencies (Optional, only if needed)
-        if: steps.set-up-node.outputs.cache-hit != 'true'
-        run: npm install
+      - name: Create package.json
+        run: |
+          echo '{"dependencies": {}}' > package.json
+
+      - name: Install dependencies
+        run: npm install vnu-jar stylelint
         
       - name: HTML Validation
         run: npx vnu-jar --verbose posts/*.html index.html
@@ -42,6 +45,4 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./ # Deploy the root directory
-          #cname: yourdomain.com
-
+          publish_dir: ./ 
