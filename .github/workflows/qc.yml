@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   qc:
     runs-on: ubuntu-latest
@@ -12,39 +13,35 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Set up Node.js (Optional, only if needed)
         uses: actions/setup-node@v3
         with:
           node-version: '18' # Use the version you require
-          cache: 'npm'
-      
-      - name: Install dependencies
+          cache: 'npm' # Only include this line if you need to cache node_modules
+
+      - name: Install dependencies (Optional, only if needed)
+        if: steps.set-up-node.outputs.cache-hit != 'true'
         run: npm install
+        
+      - name: HTML Validation
+        run: npx vnu-jar --verbose posts/*.html index.html
+        continue-on-error: true
 
-      # - name: HTML Validation
-      #   run: |
-      #     npx vnu-jar --verbose posts/*.html index.html
+      - name: CSS Linting
+        run: npx stylelint '**/*.css'
+        continue-on-error: true
 
-      #     - name: CSS Linting
-      #     run: npx stylelint '**/*.css'
-  
-      #     - name: Broken Link Checker
-      #       uses: lycheeverse/lychee-action@v1.8.0
-      #       with:
-      #         args: '.'
-    
-      #     - name: Build Website
-      #       run: |
-      #         echo "Building the website..."
-      #         # Replace the following line with your actual build command (e.g., npm run build, or another site generator command)
-      #         # This example assumes you use a static site generator that outputs to a 'dist' or 'build' directory.
-      #         # If you do not need to build anything (just serving static pages), remove the line below.
-      #         npm run build
-      #         echo "Website build completed."
-            
-      #     - name: Deploy to GitHub Pages
-      #       uses: peaceiris/actions-gh-pages@v3
-      #       if: github.ref == 'refs/heads/main'
-      #       with:
-      #         github_token: ${{ secrets.GITHUB_TOKEN }}
-      #         publish_dir: ./dist # Or ./build, change accordingly to the output dir of your build step
+      - name: Broken Link Checker
+        uses: lycheeverse/lychee-action@v1.8.0
+        with:
+          args: '.'
+        continue-on-error: true
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./ # Deploy the root directory
+          #cname: yourdomain.com
+
