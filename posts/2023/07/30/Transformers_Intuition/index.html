@@ -326,6 +326,106 @@
                     something valuable to add.
                   </p>
                   <p>
+                    Here we need to understand three fundamental concepts of
+                    attention mechanism: query, key and value.
+                  </p>
+                  <p>Query (Q) → The teacher’s question.</p>
+                  <p>
+                    The teacher is looking for the best answer, so their query
+                    is essentially:
+                    <q
+                      >Who in the class has the best response to my question?</q
+                    >
+                  </p>
+                  <p>Keys (K) → The students' understanding of the question.</p>
+                  <p>
+                    Each student has their own level of understanding of the
+                    topic. Some students know the answer really well, while
+                    others are unsure. These keys represent how relevant each
+                    student’s knowledge is to the question.
+                  </p>
+                  <p>Values (V) → The students' actual answers.</p>
+                  <p>
+                    Once the teacher identifies which students are the most
+                    knowledgeable (by matching their query with the students’
+                    keys), they then listen to the actual answers those students
+                    provide. These answers represent the values.
+                  </p>
+                  <p>
+                    Now, that we understand what are Q, K, V, let's try to
+                    understand how attention works. In my opinion, the best way
+                    to understand this is to look at the code of how it works.
+                    Let's look at how we can implement this in code.
+                  </p>
+                  <pre class="code-block"><code class="language-python">
+class SelfAttentionHead(nn.Module):
+    def __init__(self, in_size, out_size):
+        """
+        in_size is embed_size
+        out_size is head_size
+        """
+        super().__init__()
+        self.head_size = out_size
+        self.K = nn.Linear(in_size, self.head_size, bias=False)
+        self.Q = nn.Linear(in_size, self.head_size, bias=False)
+        self.V = nn.Linear(in_size, self.head_size, bias=False)
+                    </code></pre>
+                  <p>
+                    The <spam class="code">SelfAttentionHead</spam> class
+                    defines a self-attention mechanism, creating three
+                    projection matrices: K (keys), Q (queries), and V (values).
+                    These projections transform the input into lower-dimensional
+                    representations of keys, queries, and values.
+                  </p>
+                  <pre class="code-block"><code class="language-python">
+    def forward(self, x):
+        keys = self.K(x)
+        queries = self.Q(x)
+        # affinities :
+        # all the queries will dot-product with all the keys
+        # transpose (swap) second dimension (input_length) with third (head_size)
+        keys_t = keys.transpose(1, 2)
+        autocorrs = (queries @ keys_t) * (self.head_size ** -0.5)  # (batch_size x input_length x input_length)
+        '''
+        (batch_size x input_length x embed_size) @ (batch_size x embed_size x input_length) ----> (batch_size x input_length x input_length)
+        '''
+                  </code></pre>
+                  <p>
+                    We swap the second and third dimensions of keys, to align
+                    for matrix multiplication. Next, we compute the dot-product
+                    of the queries and the keys.
+                    <span class="math">\(Q \cdot K^T\)</span>. The dot-product
+                    is scaled by
+                    <span class="math"
+                      >\(\frac{1}{\sqrt{\text{head_size}}} \)</span
+                    >.to stabilize gradients
+                  </p>
+                  <pre class="code-block"><code class="language-python">
+          autocorrs = torch.tril(autocorrs)
+          autocorrs = autocorrs.masked_fill(autocorrs == 0, float('-inf'))
+                  </code></pre>
+                  <p>
+                    Next, we mask future tokens to prevent them from influencing
+                    the current token’s attention scores. This is achieved using
+                    PyTorch's <spam class="code">tril</spam> function, which
+                    zeroes out upper-triangular elements, followed by
+                    masked_fill, setting them to negative infinity to prevent
+                    influence during softmax computation.
+                  </p>
+                  <pre class="code-block"><code class="language-python">
+          autocorrs = torch.softmax(autocorrs, dim=-1)
+          values = self.V(x)  # (batch_size x input_length x head_size)
+          out = autocorrs @ values
+          return out
+                </code></pre>
+
+                  <p>
+                    Finally, we pass it through a softmax function to obtain
+                    attention weights and multiply them with the values matrix
+                    to generate the final attention output. This is also known
+                    as scaled dot-product attention scores.
+                  </p>
+                  <p>
                     In this way, just like in our classroom, self-attention
                     helps words in a sentence decide which other words to pay
                     more attention to. It’s like a teacher with magical focus,
@@ -365,6 +465,70 @@
                     team of experts sharing what they’ve seen and heard. The
                     teacher then combines all this information to give a
                     comprehensive response or feedback to the class.
+                  </p>
+                  <p>
+                    Let's try to understand this in greater detail by looking at
+                    the code of how this can be implemented.
+                  </p>
+                  <pre class="code-block"><code class="language-python">
+class MultiHeadAttention(nn.Module):
+    """
+    multiple parallel SA heads (communication among words)
+    """
+
+    def __init__(self, head_count, in_size, out_size):
+        super().__init__()
+        self.heads = nn.ModuleList(
+            TransformerBlockLM.SelfAttentionHead(in_size, out_size // head_count)
+            for _ in range(head_count)
+        )
+        self.layerNorm = nn.LayerNorm(out_size)
+        # self.proj = nn.Linear(out_size, out_size)
+                  </code></pre>
+                  <p>
+                    As we mentioned before, multi-head attention-mechanism is
+                    simply a concatenation of multiple self-attention heads.
+                    Each of these self-attention heads focusses on one or more
+                    distinct aspect of the input and are mutually exclusive to
+                    each other.
+                  </p>
+                  <p>
+                    We create multiple instances of
+                    <spam class="code">SelfAttentionHead</spam>, each operating
+                    on a portion of the total embedding size
+                    <spam class="code">(out_size // head_count)</spam>. Each
+                    head works independently, attending to different aspects of
+                    the input.
+                  </p>
+                  <p>
+                    The outputs from all self-attention heads are concatenated
+                    along the embedding dimension (dim=-1).
+                  </p>
+                  <p>
+                    After concatenating the heads, we apply Layer Normalization
+                    on the attention output to stabilize training and improve
+                    performance. There has been quite some research on the
+                    position of the LayerNorm. Finally We could apply a linear
+                    projection <spam class="code">(self.proj)</spam> to mix
+                    information across heads, but this is not strictly
+                    necessary.
+                  </p>
+                  <pre class="code-block"><code class="language-python">
+    def forward(self, x):
+        # concat over channel/embeddings_size dimension
+        return self.layerNorm(torch.cat([head(x) for head in self.heads], dim=-1))  # paper - after
+        # return torch.cat([head(self.layerNorm(x)) for head in self.heads], dim=-1) # alternate - before
+        # return self.proj(torch.cat([head(x) for head in self.heads], dim=-1))
+                  </code></pre>
+                  <p>
+                    Post-normalization (default in the code): LayerNorm is
+                    applied after attention heads are concatenated. This follows
+                    the original Transformer paper.
+                  </p>
+                  <p>
+                    Pre-normalization (alternative approach): LayerNorm is
+                    applied before each self-attention head processes the input,
+                    which can lead to more stable gradients.
                   </p>
                   <p>
                     So, in the world of language and Transformers, multi-head
@@ -410,6 +574,51 @@
                     listen to these students, though, because they might share
                     some information without revealing their secret.
                   </p>
+                  <p>
+                    This is very similar to the masking approach we saw in
+                    self-attention code. That was actually placed there to
+                    handle masking in multi-head attention. Here, we replace
+                    upper triangular values with -inf, so softmax treats them as
+                    0 probability.
+                  </p>
+                  <p>
+                    After that, we apply the
+                    <spam class="code">torch.tril</spam> function to ensure that
+                    each word only attends to itself and previous words. This is
+                    essential as it prevents leakage of future tokens in
+                    autoregressive models (GPT, transformers for text
+                    generation). This is also called as causal language modeling
+                    for decoding sequences. Finally, we can look at the code
+                    which is a variant of the multi-head attention mechanism
+                    using masked self-attention.
+                  </p>
+                  <pre class="code-block"><code class="language-python">
+class MaskedMultiHeadAttention(nn.Module):
+    """
+    Multi-head attention with causal masking (prevents future tokens from influencing the current one).
+    """
+
+    def __init__(self, head_count, in_size, out_size):
+        super().__init__()
+        self.heads = nn.ModuleList(
+            [SelfAttentionHead(in_size, out_size // head_count) for _ in range(head_count)]
+        )
+        self.layerNorm = nn.LayerNorm(out_size)
+
+    def forward(self, x):
+        # Create a causal mask: Lower triangular matrix of ones
+        seq_len = x.shape[1]
+        mask = torch.tril(torch.ones(seq_len, seq_len)).to(x.device)
+
+        # Apply self-attention with masking
+        attention_outputs = [head(x, mask) for head in self.heads]
+
+        # Concatenate multiple attention head outputs
+        out = torch.cat(attention_outputs, dim=-1)
+        
+        # Apply Layer Normalization
+        return self.layerNorm(out)
+                  </code></pre>
                   <p>
                     In the world of Transformers, masked multi-head attention
                     works similarly. It’s like some parts of the input data are
@@ -465,6 +674,363 @@
                     let’s remain ever curious and excited about what the world
                     of Transformers holds next. 🚀🤖📚
                   </p>
+                  <p>Stiching it all together, here is an advanced implementation of Transformers from scratch using BPE tokenizer</p>
+                  <pre class="code-block"><code class="language-python">
+''' Use BPE Tokenizer with Decoder only Transformer
+This model is an adaptation of the Transformer architecture that incorporates BPE tokenization
+for efficient text encoding. It demonstrates an advanced usage of layer normalization and dropout
+to improve model stability and performance.
+@Author: Debanjan Saha
+2024
++BPE
+'''
+
+
+class TransformerBlockLMNew(nn.Module):
+    '''
+    Transformer block applies multi-head attention followed by a feed-forward network
+    Both stages include skip connections and are wrapped with layer normalization
+    '''
+    class TransformerBlock(nn.Module):
+        def __init__(self, head_count, in_size, out_size, dropout=0.2):
+            super().__init__()
+            self.layerNorm1 = nn.LayerNorm(in_size)     # First layer normalization
+            self.layerNorm2 = nn.LayerNorm(in_size)     # Second layer normalization
+            # Multi-head attention mechanism
+            self.comm = TransformerBlockLMNew.MultiHeadAttention(head_count=head_count,
+                                                              in_size=in_size,
+                                                              out_size=out_size,
+                                                              dropout=dropout)
+            # Feed-forward network
+            self.ffwd = TransformerBlockLMNew.MLP(embed_size=out_size,
+                                                dropout=dropout)
+
+        def forward(self, x):
+            '''Forward pass through one transformer block'''
+            x = x + self.comm(self.layerNorm1(x))                               
+            x = x + self.ffwd(self.layerNorm2(x))                               
+            return x
+
+    class MLP(nn.Module):
+        '''
+        The MLP consists of two linear transformations with a ReLU activation in between
+        Dropout is applied as a regularizer
+        FFNN (embed_size, embed_size*4, embed_size)
+        '''
+        def __init__(self, embed_size, dropout):
+            super().__init__()
+            self.mlp = nn.Sequential(nn.Linear(embed_size, embed_size * 4),
+                                      nn.ReLU(),
+                                      nn.Linear(embed_size * 4, embed_size),
+                                      nn.Dropout(dropout))                       
+            self.layerNorm = nn.LayerNorm(embed_size)       # Layer normalization
+
+        def forward(self, x):  # think
+            '''Forward pass through MLP'''
+            return self.layerNorm(self.mlp(x))  # paper - after
+            # return self.mlp(self.layerNorm(x)) # alternate - before
+
+    class MultiHeadAttention(nn.Module):
+        """
+        multiple parallel SA heads (communication among words)
+        MultiHeadAttention mechanism allows the model to jointly attend to information
+        from different representation subspaces
+        """
+
+        def __init__(self, head_count, in_size, out_size, dropout):
+            super().__init__()
+            # Creating multiple attention heads
+            self.heads = nn.ModuleList(
+                TransformerBlockLMNew.SelfAttentionHead(in_size, out_size // head_count)
+                for _ in range(head_count)
+            )
+            self.layerNorm = nn.LayerNorm(out_size)
+            self.proj = nn.Linear(out_size, out_size)                           
+            self.dropout = nn.Dropout(dropout)                                  
+
+        def forward(self, x):
+            '''Forward pass through multi-head attention'''
+            # concat over channel/embeddings_size dimension
+            x = self.layerNorm(x)                                               
+            out =  self.layerNorm(torch.cat([head(x) for head in self.heads], dim=-1))  # paper - after
+            # out = self.dropout(self.proj(out))                                  
+            out = self.dropout(out)
+            # return torch.cat([head(self.layerNorm(x)) for head in self.heads], dim=-1) # alternate - before
+            # return self.proj(torch.cat([head(x) for head in self.heads], dim=-1))
+            return out
+
+    class SelfAttentionHead(nn.Module):
+        '''SelfAttentionHead computes attention for a single head'''
+        def __init__(self, in_size, out_size, dropout=0.2):
+            """
+            in_size is embed_size
+            out_size is head_size
+            """
+            super().__init__()
+            self.head_size = out_size       # Size of each attention head
+            self.K = nn.Linear(in_size, self.head_size, bias=False)     # Key projection
+            self.Q = nn.Linear(in_size, self.head_size, bias=False)     # Query projection
+            self.V = nn.Linear(in_size, self.head_size, bias=False)     # Value projection
+            self.dropout = nn.Dropout(dropout)                                  
+
+        def forward(self, x):
+            '''Forward pass through attention head'''
+            keys = self.K(x)
+            queries = self.Q(x)
+            # affinities :
+            # all the queries will dot-product with all the keys
+            # transpose (swap) second dimension (input_length) with third (head_size)
+            keys_t = keys.transpose(1, 2)
+            # Compute dot product attention
+            autocorrs = (queries @ keys_t) * (self.head_size ** -0.5)  # (batch_size x input_length x input_length)
+            '''
+            (batch_size x input_length x embed_size) @ (batch_size x embed_size x input_length) ----> (batch_size x input_length x input_length)
+            '''
+            autocorrs = torch.tril(autocorrs)       # Apply mask to force causality
+            autocorrs = autocorrs.masked_fill(autocorrs == 0, float('-inf'))
+            autocorrs = torch.softmax(autocorrs, dim=-1)
+            autocorrs = self.dropout(autocorrs)                                 
+            values = self.V(x)  # (batch_size x input_length x head_size)
+            out = autocorrs @ values        # Apply attention to values
+            return out
+
+    def __init__(self, batch_size=4,
+                  input_length=8,
+                  embed_size=16,
+                  sa_head_size=8,
+                  sa_multihead_count=4,
+                  n_layer = 6,                                                  
+                  dropout=0.2,                                                   
+                  vocab_size=256,                                                
+                  num_merges=256,                                                
+                  pos_embed=False,                                               # Flag for using positional embeddings
+                  include_mlp=False):                                            # Flag to include MLP in the architecture
+        super().__init__()
+        self.blocks = None                                                      # Placeholder for Transformer blocks
+        self.sa_heads = None                                                    # Placeholder for self-attention heads
+        # sa_head_size head_size of self-attention module
+        self.sa_head_size = sa_head_size                                        # Size of each self-attention head
+        self.sa_multihead_count = sa_multihead_count                            # Number of self-attention heads
+        self.linear_sahead_to_vocab = None                                      # Placeholder for linear projection from self-attention head outputs to vocabulary
+        self.n_layer = n_layer                                                  # Number of Transformer blocks
+        self.val_data = None                                                    # Placeholder for validation data
+        self.train_data = None                                                  # Placeholder for training data
+        self.val_text = None                                                    # Placeholder for validation text
+        self.train_text = None                                                  # Placeholder for training text
+        self.K = None                                                           # Placeholder for key matrix in self-attention mechanism
+        self.token_embeddings_table = None                                      # Embedding table for token embeddings
+        self.position_embeddings_table = None                                   # Embedding table for positional embeddings
+        self.vocab = None                                                       # Vocabulary built from the training corpus
+        self.vocab_size = vocab_size                                            # Size of the vocabulary
+        self.is_pos_emb = pos_embed                                             # Flag indicating whether positional embeddings are used
+        self.include_mlp = include_mlp                                          # Flag indicating whether an MLP is included after attention mechanisms
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'            # Device (GPU/CPU) on which the model is running
+        # input_length = how many consecutive tokens/chars in one input
+        self.input_length = input_length                                        # Length of input sequences
+        # batch_size = how many inputs are going to be processed in-parallel (on GPU)
+        self.batch_size = batch_size                                            # Size of batches during training
+        # embed_size = embedding size
+        self.embed_size = embed_size                                            # Dimensionality of token embeddings
+        self.dropout = dropout                                                  # Global dropout rate
+
+    def forward(self, in_ids, target=None):
+        '''Forward method defines the computation performed at every call'''
+        # Obtain token embeddings for input ids, possibly adding positional embeddings
+        in_ids_emb = self.token_embeddings_table(in_ids[:, -self.input_length:])
+        if self.is_pos_emb:
+            # If positional embeddings are used, add them to the token embeddings
+            in_ids_pos_emb = self.position_embeddings_table(
+                torch.arange(in_ids[:, -self.input_length:].shape[1], device=self.device)
+            )
+            in_ids_emb = in_ids_emb + in_ids_pos_emb
+
+        # print(f"Device - in_ids_emb: {in_ids_emb.device}, blocks parameters: {next(self.blocks.parameters()).device}, linear_sahead_to_vocab parameters: {next(self.linear_sahead_to_vocab.parameters()).device}")
+        # Pass the embeddings through the Transformer blocks
+        block_outputs = self.blocks(in_ids_emb).to(self.device)
+        # Compute logits by projecting the output of the last Transformer block to the vocabulary space
+        logits = self.linear_sahead_to_vocab(block_outputs)  # compute
+
+        if target is None:
+            ce_loss = None
+        else:
+            # If targets are provided, compute the cross-entropy loss
+            batch_size, input_length, vocab_size = logits.shape
+            logits_ = logits.view(batch_size * input_length, vocab_size)
+            targets = target.view(batch_size * input_length)
+            ce_loss = F.cross_entropy(logits_, targets)
+        return logits, ce_loss
+
+    def fit(self, train_iters=100, eval_iters=10, lr=0.0001):
+        """
+        Method to train the model
+        train_iters = how many training iterations
+        eval_iters = how many batches to evaluate to get average performance
+        """
+        optimizer = torch.optim.AdamW(self.parameters(), lr=lr)  # optimizer: AdamW (https://arxiv.org/abs/1711.05101)
+        for iteration in range(train_iters):
+            if iteration % eval_iters == 0:
+                avg_loss = self.eval_loss(eval_iters)
+                # print(f"iter {iteration}: train {avg_loss['train']} val {avg_loss['eval']}")
+                print(f"iter {iteration}: Train ==> loss={avg_loss['train']['avg_loss'].item():.4f} perplexity={avg_loss['train']['perplexity']:.4f} \t Val ==> loss={avg_loss['eval']['avg_loss'].item():.4f} perplexity={avg_loss['eval']['perplexity']:.4f}")
+            inputs, targets = self.get_batch(split='train')
+            _, ce_loss = self(inputs, targets)
+            optimizer.zero_grad(set_to_none=True)  # clear gradients of previous step
+            ce_loss.backward()  # propagate loss back to each unit in the network
+            optimizer.step()  # update network parameters w.r.t the loss
+        # torch.save(self, 'sa_pos_')
+
+    def generate(self, context_token_ids, max_new_tokens):
+        '''Method for generating text based on context token ids'''
+        for _ in range(max_new_tokens):
+            # Text generation using the model
+            token_rep, _ = self(context_token_ids)
+            last_token_rep = token_rep[:, -1, :]
+            probs = F.softmax(last_token_rep, dim=1)
+            next_token = torch.multinomial(probs, num_samples=1)
+            context_token_ids = torch.cat((context_token_ids, next_token), dim=1)
+        output_text = self.bpe_tokenizer.decode(context_token_ids[0].tolist())  
+        return output_text
+
+    @torch.no_grad()  # tell torch not to prepare for back-propagation (context manager)
+    def eval_loss(self, eval_iters):
+        '''Evaluation procedure'''
+        perf = {}
+        # set dropout and batch normalization layers to evaluation mode before running inference.
+        self.eval()
+        for split in ['train', 'eval']:
+            total_loss = 0.0                                                    
+            total_tokens = 0                                                    
+            losses = torch.zeros(eval_iters)
+            for k in range(eval_iters):
+                tokens, targets = self.get_batch(split)  # get random batch of inputs and targete
+                _, ce_loss = self(tokens, targets)  # forward pass
+                total_loss += ce_loss.item() * tokens.size(0)                   
+                total_tokens += tokens.size(0) * tokens.size(1)                
+                losses[k] = ce_loss.item()  # the value of loss tensor as a standard Python number
+            # Deb: Calculate average cross-entropy loss
+            avg_loss = total_loss / (eval_iters * self.batch_size * self.input_length)
+            # Deb: Calculate perplexity
+            perplexity = math.exp(avg_loss)
+            # perf[split] = losses.mean()
+            perf[split] = {                                                     
+                'avg_loss': losses.mean(),
+                'perplexity': perplexity
+            }
+        self.train()  # turn-on training mode-
+        return perf
+
+    def prep(self, corpus):
+        '''Method to prepare the model with training and validation data'''
+        # Preprocessing and data preparation
+        self.bpe_tokenizer = self.BPE(vocab_size=self.vocab_size)               
+        self.bpe_tokenizer.train(corpus, num_merges=256)                        
+        self.vocab = self.bpe_tokenizer.vocab                                   
+        self.vocab_size = len(self.vocab)                                       
+
+        n = len(corpus)
+        self.train_text = corpus[:int(n * 0.9)]
+        self.val_text = corpus[int(n * 0.9):]
+        # Deb: Use BPE Tokenizer
+        self.train_data = torch.tensor(self.bpe_tokenizer.encode(self.train_text), dtype=torch.long).to(self.device)
+        self.val_data = torch.tensor(self.bpe_tokenizer.encode(self.val_text), dtype=torch.long).to(self.device)
+
+        # look-up table for embeddings (vocab_size x embed_size)
+        # it will be mapping each token id to a vector of embed_size
+        # a wrapper to store vector representations of each token
+        self.token_embeddings_table = nn.Embedding(self.vocab_size, self.embed_size)
+        self.token_embeddings_table = self.token_embeddings_table.to(self.device)   
+
+        if self.is_pos_emb:
+            self.position_embeddings_table = nn.Embedding(self.input_length, self.embed_size)
+            self.position_embeddings_table = self.position_embeddings_table.to(self.device)
+
+        self.blocks = nn.Sequential(
+            *[TransformerBlockLMNew.TransformerBlock(head_count=self.sa_multihead_count,
+                                                  in_size=self.embed_size,
+                                                  out_size=self.sa_head_size,
+                                                  dropout=self.dropout) for _ in range(self.n_layer)]).to(self.device)
+        # linear projection of sa_head output to vocabulary
+        self.linear_sahead_to_vocab = nn.Linear(self.sa_head_size, self.vocab_size).to(self.device)
+
+
+    def get_batch(self, split='train'):
+        '''Method to generate a batch of training or validation data'''
+        data = self.train_data if split == 'train' else self.val_data
+        # get random chunks of length batch_size from data
+        ix = torch.randint(len(data) - self.input_length,
+                            (self.batch_size,))
+        inputs_batch = torch.stack([data[i:i + self.input_length] for i in ix])
+        targets_batch = torch.stack([data[i + 1:i + self.input_length + 1] for i in ix])
+        inputs_batch = inputs_batch.to(self.device)
+        targets_batch = targets_batch.to(self.device)
+        return inputs_batch, targets_batch
+
+    class BPE:
+        '''Deb uses Byte Pair Encoding instead of BiGram for sub-word tokenization
+        instead of existing character level tokenization'''
+        def __init__(self, vocab_size=256):
+            self.vocab_size = vocab_size
+            self.vocab = {chr(i): i for i in range(vocab_size)}  # Initial vocab of single characters
+            self.merges = {}
+
+        def train(self, text, num_merges):
+            '''Training BPE on the corpus'''
+            # Tokenize text into characters
+            tokens = list(text)
+            # Count frequency of pairs
+            pairs = self.get_stats(tokens)
+
+            for i in range(num_merges):
+                if not pairs:
+                    break
+                # Find the most frequent pair
+                best_pair = max(pairs, key=pairs.get)
+                # Merge the best pair throughout the tokens
+                tokens = self.merge_tokens(tokens, best_pair)
+                # Update merges and vocab
+                self.merges[best_pair] = i + self.vocab_size
+                self.vocab[''.join(best_pair)] = i + self.vocab_size
+                # Recount pairs
+                pairs = self.get_stats(tokens)
+
+        def get_stats(self, tokens):
+            '''Calculating frequency of token pairs'''
+            pairs = {}
+            for i in range(len(tokens)-1):
+                pair = (tokens[i], tokens[i+1])
+                if pair in pairs:
+                    pairs[pair] += 1
+                else:
+                    pairs[pair] = 1
+            return pairs
+
+        def merge_tokens(self, tokens, pair):
+            '''Merging token pairs found during BPE training'''
+            merged_tokens = []
+            i = 0
+            while i < len(tokens):
+                # Merge pair if found, skip the next token as it's merged
+                if i < len(tokens) - 1 and (tokens[i], tokens[i+1]) == pair:
+                    merged_tokens.append(''.join(pair))
+                    i += 2
+                else:
+                    merged_tokens.append(tokens[i])
+                    i += 1
+            return merged_tokens
+
+        def encode(self, text):
+            '''Encoding text using the trained BPE merges'''
+            tokens = list(text)
+            for pair in self.merges:
+                tokens = self.merge_tokens(tokens, pair)
+            return [self.vocab[token] for token in tokens if token in self.vocab]
+
+        def decode(self, token_ids):
+            '''Decoding token IDs back to text'''
+            reverse_vocab = {idx: token for token, idx in self.vocab.items()}
+            return ''.join([reverse_vocab[id_] for id_ in token_ids if id_ in reverse_vocab])
+                
+                  </pre></code>
                 </section>
                 <section>
                   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

@@ -1,3 +1,5 @@
 templates/
 .DS_Store
 node_modules/
+starter-page.html
+sample-blog.html
