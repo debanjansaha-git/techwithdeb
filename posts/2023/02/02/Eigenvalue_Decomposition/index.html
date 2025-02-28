@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Tech with Deb</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="../../../../../assets/img/favicon.png" rel="icon" />
+    <link
+      href="../../../../../assets/img/apple-touch-icon.png"
+      rel="apple-touch-icon"
+    />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="../../../../../assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../../../../assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="../../../../../assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="../../../../../assets/vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../../../../assets/vendor/swiper/swiper-bundle.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Main CSS File -->
+    <link href="../../../../../assets/css/main.css" rel="stylesheet" />
+    <!--Highlight-->
+    <link
+      href="../../../../../assets/highlight/styles/github.css"
+      rel="stylesheet"
+    />
+
+    <script
+      type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    ></script>
+  </head>
+
+  <body>
+    <!-- Page Title -->
+    <div class="page-title dark-background">
+      <div
+        class="container d-lg-flex justify-content-between align-items-center"
+      >
+        <h1 class="mb-2 mb-lg-0">Eigenvalue Decomposition</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="../../../../../index.html">Home</a></li>
+            <li><a href="../../../../../blogs.html">Blogs</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <!-- End Page Title -->
+
+    <div id="wrap">
+      <main id="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div id="body">
+                <div class="info">
+                  <p style="font-family: Roboto; font-size: 130%">
+                    Posted on
+                    <time datetime="2023-02-02">February 2, 2023</time>
+                  </p>
+                  <div class="tag-container">
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/neural_networks.html"
+                        >neural networks</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/deep_learning.html"
+                        >deep learning</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/transformers.html"
+                        >transformers</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/attention.html"
+                        >attention</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/nlp.html"
+                        >NLP</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/machine_learning.html"
+                        >machine learning</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/ai.html">AI</a></span
+                    >
+                  </div>
+                </div>
+                <section>
+                  <subsection>
+                    <p>
+                      Many a times people get confused about eigenvalue
+                      decomposition, and it becomes really hard to visualize how
+                      eigenvectors are decomposed. But don’t worry, as we will
+                      look into eigenvalue decomposition in-depth in this
+                      article.
+                    </p>
+                    <p>
+                      Eigenvalue decomposition is a fundamental concept in
+                      linear algebra that provides a way to decompose a square
+                      matrix into a set of eigenvectors and eigenvalues. It is
+                      an important tool in linear algebra and its applications,
+                      and it is worth spending some time to understand it
+                      thoroughly.
+                    </p>
+                    <h2>Eigenvectors</h2>
+                    <p>
+                      Eigenvectors are special vectors that are stretched or
+                      scaled by a matrix in a predictable way. Given a square
+                      matrix <span class="math">\(A\)</span>, a non-zero vector
+                      <span class="math">\(v\)</span> is an eigenvector of
+                      <span class="math">\(A\)</span> if the following equation
+                      holds:
+                    </p>
+                    <span class="math">\[Av = \lambda v\]</span>
+                    <p>
+                      where <span class="math">\(\lambda\)</span> is a scalar
+                      called the eigenvalue corresponding to the eigenvector
+                      <span class="math">\(v\)</span>.
+                    </p>
+                    <p>
+                      The scalar
+                      <span class="math">\(\lambda\)</span> represents the
+                      amount by which the matrix
+                      <span class="math">\(A\)</span> stretches or scales the
+                      eigenvector <span class="math">\(v\)</span>.
+                    </p>
+
+                    <h2>Eigenvalue Decomposition</h2>
+                    <p>
+                      The eigenvalue decomposition of a matrix
+                      <span class="math">\(A\)</span> is a decomposition of the
+                      form:
+                    </p>
+                    <span class="math">\[Q \Lambda Q^{-1}\]</span>
+                    <p>
+                      where <span class="math">\(Q\)</span> is an invertible
+                      matrix consisting of the eigenvectors of
+                      <span class="math">\(A\)</span> , and
+                      <span class="math">\(A\)</span> is a diagonal matrix whose
+                      entries are the eigenvalues of
+                      <span class="math">\(A\)</span>.
+                    </p>
+                    <p>
+                      It is very important to note here, that the matrix
+                      <span class="math">\(Q\)</span> is not necessarily always
+                      symmetric, however, it needs to be invertible, in which
+                      case it will have complex eigenvalues.
+                    </p>
+                    <ul>
+                      <li>
+                        Symmetric matrices:
+                        <span class="math">\(Q \Lambda Q^{-T}\)</span>, where
+                        <span class="math">\(Q\)</span> is orthogonal.
+                      </li>
+                      <li>
+                        Hermitian matrices:
+                        <span class="math">\(Q \Lambda Q^{\dagger}\)</span>,
+                        where <span class="math">\(Q\)</span> is unitary.
+                      </li>
+                      <li>
+                        Diagonal matrices:
+                        <span class="math">\(Q \Lambda Q^{-1}\)</span>, where
+                        <span class="math">\(Q\)</span> is diagonal, or
+                        invertible but not necessarily orthogonal.
+                      </li>
+                    </ul>
+                    <p>
+                      The invertible matrix <span class="math">\(Q\)</span> is
+                      made up of the eigenvectors of
+                      <span class="math">\(A\)</span> , and the eigenvalues are
+                      stored along the diagonal of the matrix
+                      <span class="math">\(A\)</span> . The eigenvalue matrix is
+                      a diagonal matrix that contains the eigenvalues of a
+                      square matrix <span class="math">\(A\)</span> . The
+                      eigenvalue matrix can be used to represent the scaling or
+                      stretching that a matrix performs on its eigenvectors.
+                    </p>
+                    <p>
+                      The determinant of a square matrix is a scalar value that
+                      describes the magnitude of the scaling transformation
+                      performed by the matrix. The determinant is denoted as
+                      <span class="math">\( |A| \)</span> and can be computed as
+                      the product of the eigenvalues of the matrix. If the
+                      eigenvalues of a matrix are real and positive, then the
+                      determinant is also real and positive, and it gives a
+                      measure of the magnitude of the scaling transformation
+                      performed by the matrix.
+                    </p>
+                    <span class="math">\[ det |{\lambda I - A}| = 0\]</span>
+                    <p>
+                      In the eigenvalue decomposition of a matrix, the
+                      determinant of the matrix is equal to the product of the
+                      eigenvalues of the matrix.
+                      <span class="math"
+                        >\[ |A| = \prod_{i=1}^{n} \lambda_i\]</span
+                      >, where <span class="math">\( \lambda_i \)</span> are the
+                      eigenvalues.
+                    </p>
+                    <p>
+                      This means that the determinant provides information about
+                      the magnitude of the scaling transformation performed by
+                      the matrix and how it affects the eigenvectors of the
+                      matrix.
+                    </p>
+                    <p>
+                      Determinant is also useful for solving linear systems and
+                      for calculating the inverse of a matrix. If the
+                      determinant of a matrix is non-zero, then the matrix is
+                      invertible and the inverse of the matrix can be found
+                      using the eigenvalue decomposition.
+                    </p>
+                  </subsection>
+                  <subsection>
+                    <h3>Properties of Eigenvalues</h3>
+                    <ul>
+                      <li>
+                        Real Eigenvalues: The eigenvalues of a real square
+                        matrix are real numbers.
+                      </li>
+                      <li>
+                        Sum of Eigenvalues: The sum of the eigenvalues of a
+                        matrix is equal to the trace of the matrix. This can be
+                        written as:
+                        <span class="math"
+                          >\[ \sum_{i=1}^{n} \lambda_i = tr(A)\]</span
+                        >
+                      </li>
+                      <li>
+                        Product of Eigenvalues: The product of the eigenvalues
+                        of a matrix is equal to the product of the absolute
+                        values of the eigenvalues. This can be written as below
+                        for a real full-rank matrix:
+                        <span class="math"
+                          >\[ |A| = \prod_{i=1}^{n} \lambda_i\]</span
+                        >
+                        <p>
+                          If the covariance matrices are positive semi-definite
+                          (some eigenvalues might be zero), it can lead to the
+                          <span class="math">\( |A| \)</span> to be zero,
+                          indicating rank deficiency.
+                        </p>
+                        <p>
+                          A zero determinant means the matrix is singular
+                          (non-invertible) and has at least one eigenvalue equal
+                          to zero.
+                        </p>
+                      </li>
+                      <li>
+                        Characteristic Equation: The eigenvalues of a matrix can
+                        be found by solving the characteristic equation. The
+                        characteristic equation is defined as the polynomial
+                        equation whose roots are the eigenvalues of the matrix.
+                        The characteristic equation can be written as:
+                        <span class="math">\[ det(A - \lambda I) = 0\]</span>
+                      </li>
+                      <li>
+                        Algebraic Multiplicity: The algebraic multiplicity of an
+                        eigenvalue is the number of times it appears as a root
+                        of the characteristic equation.
+                      </li>
+                      <li>
+                        Geometric Multiplicity: The geometric multiplicity of an
+                        eigenvalue is the number of linearly independent
+                        eigenvectors corresponding to it.
+                      </li>
+                      <li>
+                        Positive Definite: A matrix is positive definite if all
+                        of its eigenvalues are strictly positive. Positive
+                        definite matrices are crucial in optimization and
+                        machine learning as they ensure convexity in quadratic
+                        programming.
+                      </li>
+                      <li>
+                        Positive Semi-Definite: A matrix is positive
+                        semi-definite if all eigenvalues are non-negative and at
+                        least one of its eigenvalues is positive. Some
+                        eigenvalues can be zeros.
+                      </li>
+                      <li>
+                        Negative Definite: A matrix is negative definite if all
+                        of its eigenvalues are negative.
+                      </li>
+                      <li>
+                        Negative Semi-Definite: A matrix is negative
+                        semi-definite if at least one of its eigenvalues is
+                        negative.
+                      </li>
+                      <li>
+                        Rank: The rank of a matrix is the number of linearly
+                        independent rows or columns of the matrix. It is equal
+                        to te number of non-zero eigenvalues of the matrix.
+                      </li>
+                      <li>
+                        Orthogonal Diagonal: If a square matrix has n linearly
+                        independent eigenvectors, then the matrix can be
+                        diagonalized by an orthogonal matrix. This means that
+                        the matrix can be transformed into a diagonal matrix
+                        consisting of its eigenvalues by multiplying it with an
+                        orthogonal matrix.
+                      </li>
+                      <li>
+                        Complex Eigenvalues: A square matrix can have complex
+                        eigenvalues as well. In this case, the eigenvectors
+                        corresponding to the complex eigenvalues will also be
+                        complex. When a real matrix has complex eigenvalues, it
+                        often corresponds to a rotation-scaling transformation
+                        in 2D space.
+                      </li>
+                      <li>
+                        Eigenvectors and Diagonalization: If a matrix is
+                        diagonalizable, then its eigenvectors form a basis for
+                        the vector space. This means that any vector in the
+                        vector space can be expressed as a linear combination of
+                        the eigenvectors of the matrix.
+                      </li>
+                      <li>
+                        Matrix Powers: The eigenvalues of a matrix are useful
+                        for finding the matrix powers. For example, if
+                        <span class="math">\( A \)</span> is a square matrix and
+                        <span class="math">\( \lambda \)</span> is an eigenvalue
+                        of <span class="math">\( A \)</span>, then
+                        <span class="math">\( \lambda^k \)</span> is also an
+                        eigenvalue of <span class="math">\( A^k \) </span>.
+                      </li>
+                    </ul>
+                  </subsection>
+                  <subsection>
+                    <h2>Applications of Eigenvalue Decomposition</h2>
+                    <p>
+                      Eigenvalue decomposition has a wide range of applications
+                      in various fields such as image processing, computer
+                      graphics, control theory, and machine learning. For
+                      example, it is used in principal component analysis (PCA)
+                      to reduce the dimensionality of data, in spectral
+                      clustering to group similar data points, and in
+                      recommendation systems to predict the ratings of items for
+                      a user.
+                    </p>
+                    <p>
+                      The eigenvalue decomposition has many applications in
+                      linear algebra and numerical analysis. It is used to study
+                      the stability and convergence of linear systems, to find
+                      the stationary points of functions, and to solve
+                      differential equations. It is also used in data analysis,
+                      computer graphics, and computer vision, where it is used
+                      to analyze the structure of data sets and to perform
+                      dimensionality reduction.
+                    </p>
+                    <p>
+                      In stochastic processes, the largest eigenvalue of a
+                      Markov transition matrix is always 1, and the
+                      corresponding eigenvector gives the steady-state
+                      distribution. This is crucial in algorithms like
+                      <a href="https://en.wikipedia.org/wiki/PageRank"
+                        >Google PageRank</a
+                      >, where the dominant eigenvector determines the ranking.
+                    </p>
+                    <p>
+                      If a real 2×2 matrix has complex eigenvalues, it likely
+                      represents a rotation plus scaling, which is common in
+                      physics and signal processing.
+                    </p>
+                  </subsection>
+                  <subsection>
+                    <h2>Connection with PCA</h2>
+                    <p>
+                      Eigenvalue decomposition is heavily used in statistics,
+                      particularly in Principal Component Analysis (PCA). For a
+                      covariance matrix <span class="math">\( \Sigma \)</span> ,
+                      its eigenvalues represent the variance captured in the
+                      principal components, and its eigenvectors define the
+                      principal directions.
+                    </p>
+                    <p>The covariance matrix can be decomposed as:</p>
+                    <span class="math">\[ \Sigma = Q \Lambda Q^{-T} \]</span>
+                    <p>
+                      This ensures that the eigenvectors (principal components)
+                      are orthonormal and eigenvalues represent the variance
+                      along those directions.
+                    </p>
+                    <p>
+                      A key result in linear algebra is that a real symmetric
+                      matrix always has real eigenvalues and an orthonormal
+                      eigenvector basis.
+                    </p>
+                    <p>
+                      The
+                      <a href="https://en.wikipedia.org/wiki/Spectral_theorem"
+                        >Spectral Theorem</a
+                      >
+                      states that for symmetric matrices it satisfies the
+                      aforementioned equation. This guarantees that eigenvectors
+                      form an orthonormal basis.
+                    </p>
+                    <p>
+                      This is especially important in statistics since
+                      covariance matrices are always symmetric, meaning PCA
+                      always yields real-valued principal components.
+                    </p>
+                  </subsection>
+                  <subsection>
+                    <h2>Conclusion</h2>
+                    <p>
+                      In conclusion, the eigenvalue matrix and the determinant
+                      are important concepts in linear algebra and are related
+                      to the eigenvalue decomposition of a matrix. The
+                      eigenvalue matrix provides information about the scaling
+                      transformation performed by a matrix, and the determinant
+                      provides information about the magnitude of the scaling
+                      transformation and its effect on the eigenvectors of the
+                      matrix.
+                    </p>
+                  </subsection>
+                </section>
+                <section>
+                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+                  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+                </section>
+              </div>
+              <div class="col-md-4" id="toc-wrapper"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer id="footer" class="footer position-relative light-background">
+      <div class="container">
+        <div class="copyright text-center">
+          <p>
+            © <span>Copyright</span>
+            <strong class="px-1 sitename">Debanjan Saha</strong>
+            <span>All Rights Reserved</span>
+          </p>
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you've purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+          Designed by
+          <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by
+          <a href="https://themewagon.com">ThemeWagon</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scroll Top -->
+    <a
+      href="#"
+      id="scroll-top"
+      class="scroll-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <!-- jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="../../../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../../../assets/js/main.js"></script>
+
+    <script src="../../../../../assets/highlight/highlight.pack.js"></script>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+
+    <script src="../../../../../assets/js/footnotes.js"></script>
+    <script src="../../../../../assets/js/bootstrap-carousel.js"></script>
+    <script src="../../../../../assets/js/inlineDisqussions.js"></script>
+    <script src="../../../../../assets/js/toc.js"></script>
+
+    <script
+      type="text/javascript"
+      src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    ></script>
+
+    <noscript
+      >Enable JavaScript for footnotes, Disqus comments, and other cool
+      stuff.</noscript
+    >
+  </body>
+</html>
