@@ -432,6 +432,92 @@
                       always yields real-valued principal components.
                     </p>
                   </subsection>
+
+                  <subsection>
+                    <h2>Some Caveats of Using Eigenvalue Decomposition</h2>
+                    <ul>
+                      <li>
+                        <b>Not Every Matrix Has an Eigenvalue Decomposition</b>
+                        - Eigenvalue decomposition is only possible for
+                        diagonalizable matrices, meaning:
+                        <ul>
+                          <li>
+                            The matrix must have
+                            <span class="math">\(n\)</span> linearly independent
+                            eigenvectors (for an
+                            <span class="math">\(n\)</span>×<span class="math"
+                              >\(n\)</span
+                            >
+                            matrix).
+                          </li>
+                          <li>
+                            If the matrix has defective eigenvalues (i.e., the
+                            geometric multiplicity of an eigenvalue is smaller
+                            than its algebraic multiplicity), it cannot be fully
+                            diagonalized.
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <p>
+                          Eigenvalue Decomposition only works for Square
+                          Matrices. Non-square matrices require Singular Value
+                          Decomposition (SVD) instead.
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          Eigenvalues are very sensitive to perturbations. Small
+                          changes in input-values (due to floating point
+                          precision errors) can drastically change eigenvalues
+                          and eigenvectors.
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          If two eigenvalues are very close (near degenerate
+                          eigenvalues), numerical computations may mix up
+                          corresponding eigenvectors. This causes instability in
+                          applications like PCA.
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          Eigenvalue Decomposition has cubic time-complexity
+                          (<span class="math">\(O(n^3)\)</span>) for a square
+                          matrix for size <span class="math">\(n\)</span>. This
+                          makes computing eigenvalue decomposition of large
+                          matrices computationally expensive.
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          Eigenvectors are not unique, and can be scaled
+                          indefinitely. For instance, if
+                          <span class="math">\(v\)</span> is an eigenvector,
+                          then <span class="math">\(cv\)</span> where (<span
+                            class="math"
+                            >\(c \neq 0\)</span
+                          >) is a scalar, is also an eigenvector.
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          Eigenvalue decomposition is inherently linear and does
+                          not work well for datasets with nonlinear structure.
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          While in PCA, the largest eigenvalues correspond to
+                          the most significant principal components, in some
+                          cases (e.g., in Markov Chains), small eigenvalues can
+                          be more important.
+                        </p>
+                      </li>
+                    </ul>
+                  </subsection>
+
                   <subsection>
                     <h2>Conclusion</h2>
                     <p>
@@ -447,6 +533,32 @@
                   </subsection>
                 </section>
                 <section>
+                  <h2>Study Material</h2>
+                  <ul>
+                    <li>
+                      <a href="https://math.mit.edu/~gs/linearalgebra/ila5/linearalgebra5_6-1.pdf">[PDF] Introduction to Linear Algebra, Ch. 6 - Prof. Gilbert Strang, MIT</a>
+                    </li>
+                    <li>
+                      <a href="https://textbooks.math.gatech.edu/ila/chap-eigenvalues.html">Interactive Linear Algebra - Dan Margalit, Joseph Rabinoff, GT</a>
+                    </li>
+                  </ul>
+                  <h2>Recommended Reads</h2>
+                  <ul>
+                    <li>
+                      <a href="https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors">
+                        Eigenvalues and Eigenvectors - Wikipedia
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://youtu.be/PFDu9oVAE-g?si=Q-B0QqW26Eostgw2">[YouTube] Eigenvectors and eigenvalues - 3Blue1Brown</a>
+                    </li>
+                    <li>
+                      <a href="https://youtu.be/e50Bj7jn9IQ?si=Q3QsSsopDglvdm8J">[YouTube] Calculating Eigenvalues - 3Blue1Brown</a>
+                    </li>
+                    <li>
+                      <a href="https://youtu.be/i8FukKfMKCI?si=HnWdvvay0NQ-jols">[YouTube] Applications of Eigenvalues - Zach Star</a>
+                    </li>
+                  </ul>
                   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
                   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
                 </section>
