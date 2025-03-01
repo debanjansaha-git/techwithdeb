@@ -378,8 +378,124 @@
                       <span class="math">\(V\)</span>.
                     </p>
                     <div class="bigcenterimgcontainer">
-                        <img src="img/pca.gif" alt style />
-                      </div>
+                      <img src="img/pca.gif" alt style />
+                    </div>
+                  </subsection>
+                  <subsection>
+                    <h2>SVD Implentation</h2>
+                    <pre class="code-block"><code class="language-python">
+import numpy as np
+
+def svd_decomposition(A, tol=1e-10):
+    """Computes Singular Value Decomposition (SVD) from scratch"""
+    # Compute eigenvalues and eigenvectors of A^T A to get V
+    AtA = np.dot(A.T, A)
+    eig_vals_v, V = np.linalg.eigh(AtA)  # Eigenvalue decomposition
+
+    # Sort eigenvalues and corresponding eigenvectors in descending order
+    sorted_indices = np.argsort(eig_vals_v)[::-1]
+    eig_vals_v = eig_vals_v[sorted_indices]
+    V = V[:, sorted_indices]
+
+    # Compute singular values as square roots of eigenvalues
+    singular_values = np.sqrt(np.maximum(eig_vals_v, 0))  # Ensure non-negative values
+
+    # Compute eigenvalues and eigenvectors of A A^T to get U
+    AAt = np.dot(A, A.T)
+    eig_vals_u, U = np.linalg.eigh(AAt)
+
+    # Sort eigenvalues and corresponding eigenvectors in descending order
+    sorted_indices = np.argsort(eig_vals_u)[::-1]
+    U = U[:, sorted_indices]
+
+    # Construct Σ (S matrix) as a diagonal matrix of singular values
+    S = np.zeros_like(A, dtype=float)
+    min_dim = min(A.shape)
+    S[:min_dim, :min_dim] = np.diag(singular_values[:min_dim])
+
+    return U, S, V.T
+                        
+                    </code></pre>
+
+                    <p>The code can be broken down into the following steps</p>
+                    <ol>
+                      <li>
+                        We find eigenvalues & eigenvectors of
+                        <span class="math">\(A^T.A\)</span> to get
+                        <span class="math">\(V\)</span>
+                      </li>
+                      <li>
+                        We find eigenvalues & eigenvectors of
+                        <span class="math">\(A.A^T\)</span> to get
+                        <span class="math">\(U\)</span>
+                      </li>
+                      <li>
+                        The eigenvalues must then be sorted in descending order
+                        to align with the standard SVD format.
+                      </li>
+                      <li>
+                        The singular values are the square roots of eigenvalues
+                        of <span class="math">\(A^T.A\)</span>
+                      </li>
+                      <li>
+                        S (representing <span class="math">\(\Sigma\)</span>) is
+                        a diagonal matrix where the top-left
+                        <span class="math">\(k~x~k\)</span> portion contains
+                        singular values.
+                      </li>
+                      <li>
+                        Finally, we reconstruct
+                        <span class="math">\(A\)</span> using
+                        <span class="math">\(U \Sigma V^T\)</span> to ensure
+                        correctness
+                      </li>
+                    </ol>
+                    <p>This is called as</p>
+                    <pre class="code-block"><code class="language-python">
+==========================
+FUNCTION CALL:
+==========================
+                        
+A = np.array([[1, -2, 5], [-2, -3, 1], [3, 8, -3]])
+U, S, Vt = svd_decomposition(A)
+# Print results
+print("U Matrix:\n", U)
+print("S Matrix:\n", S)
+print("V Transposed Matrix:\n", Vt)
+
+==========================
+OUTPUTS:
+==========================
+
+U Matrix:
+ [[-0.35768837 -0.92786632  0.10546623]
+ [-0.34408499  0.23594347  0.90881032]
+ [ 0.86813855 -0.28878154  0.40365911]]
+S Matrix:
+ [[10.32550132  0.          0.        ]
+ [ 0.          4.35854723  0.        ]
+ [ 0.          0.          0.62216436]]
+V Transposed Matrix:
+ [[-0.28423775 -0.841871    0.4587615 ]
+ [ 0.51992046  0.26668292  0.81151891]
+ [ 0.80553809 -0.4691838  -0.3619046 ]]
+
+==========================
+RECONSTRUCTION:
+==========================
+# Verify reconstruction
+A_reconstructed = U @ S @ Vt
+print("\nReconstructed A:\n", A_reconstructed)
+assert np.allclose(A.astype(float), -A_reconstructed)
+
+==========================
+OUTPUTS:
+==========================
+Reconstructed A:
+ [[-1.  2. -5.]
+ [ 2.  3. -1.]
+ [-3. -8.  3.]]
+                        </code></pre>
                   </subsection>
                 </section>
                 <section>
