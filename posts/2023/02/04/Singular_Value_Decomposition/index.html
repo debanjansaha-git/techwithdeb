@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Tech with Deb</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="../../../../../assets/img/favicon.png" rel="icon" />
+    <link
+      href="../../../../../assets/img/apple-touch-icon.png"
+      rel="apple-touch-icon"
+    />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="../../../../../assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../../../../assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="../../../../../assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="../../../../../assets/vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../../../../../assets/vendor/swiper/swiper-bundle.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Main CSS File -->
+    <link href="../../../../../assets/css/main.css" rel="stylesheet" />
+    <!--Highlight-->
+    <link
+      href="../../../../../assets/highlight/styles/github.css"
+      rel="stylesheet"
+    />
+
+    <script
+      type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    ></script>
+  </head>
+
+  <body>
+    <!-- Page Title -->
+    <div class="page-title dark-background">
+      <div
+        class="container d-lg-flex justify-content-between align-items-center"
+      >
+        <h1 class="mb-2 mb-lg-0">Singular Value Decomposiion</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="../../../../../index.html">Home</a></li>
+            <li><a href="../../../../../blogs.html">Blogs</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <!-- End Page Title -->
+
+    <div id="wrap">
+      <main id="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div id="body">
+                <div class="info">
+                  <p style="font-family: Roboto; font-size: 130%">
+                    Posted on
+                    <time datetime="2023-02-04">February 04, 2023</time>
+                  </p>
+                  <div class="tag-container">
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/neural_networks.html"
+                        >neural networks</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/deep_learning.html"
+                        >deep learning</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/transformers.html"
+                        >transformers</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/attention.html"
+                        >attention</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/nlp.html"
+                        >NLP</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/machine_learning.html"
+                        >machine learning</a
+                      ></span
+                    >
+                    <span class="tag-item"
+                      ><a href="../../../../../posts/tags/ai.html">AI</a></span
+                    >
+                  </div>
+                </div>
+                <section>
+                  <subsection>
+                    <p>
+                      Singular Value Decomposition (SVD) is a fundamental matrix
+                      factorization technique widely used in machine learning,
+                      signal processing, and data analysis. It decomposes a
+                      given matrix into three matrices:
+                      <span class="math">\(U\)</span>,
+                      <span class="math">\(\Sigma\)</span>, and
+                      <span class="math">\(V\)</span>, where
+                      <span class="math">\(U\)</span> and
+                      <span class="math">\(V\)</span> are orthogonal matrices,
+                      and <span class="math">\(\Sigma\)</span> is a diagonal
+                      matrix.
+                    </p>
+                    <span class="math">\[A = U \Sigma V^T\]</span>
+                    <div class="bigcenterimgcontainer">
+                      <img src="img/svd.jpg" alt style />
+                    </div>
+                    <div class="spaceafterimg"></div>
+                    <p>
+                      The elements of <span class="math">\(\Sigma\)</span> are
+                      called the singular values of
+                      <span class="math">\(A\)</span>.
+                    </p>
+                    <p>
+                      The <span class="math">\(U\)</span> matrix contains the
+                      left singular vectors of the matrix
+                      <span class="math">\(A\)</span>. These singular vectors
+                      are orthogonal to each other and span the column space of
+                      <span class="math">\(A\)</span>. The number of columns in
+                      <span class="math">\(U\)</span> is equal to the number of
+                      rows in <span class="math">\(A\)</span>.
+                    </p>
+                    <p>
+                      The <span class="math">\(\Sigma\)</span> matrix is a
+                      diagonal matrix that contains the singular values of
+                      <span class="math">\(A\)</span> on the diagonal. The
+                      singular values are sorted in descending order. The
+                      singular values are positive real numbers and they measure
+                      the importance or magnitude of each singular vector.
+                    </p>
+                    <p>
+                      The <span class="math">\(V\)</span> matrix contains the
+                      right singular vectors of <span class="math">\(A\)</span>.
+                      These singular vectors are orthogonal to each other and
+                      span the row space of <span class="math">\(A\)</span>. The
+                      number of columns in <span class="math">\(V\)</span> is
+                      equal to the number of columns in
+                      <span class="math">\(A\)</span>.
+                    </p>
+                  </subsection>
+                  <subsection>
+                    <h2>Properties of SVD</h2>
+                    <ol>
+                      <li>
+                        Rank: The rank of a matrix is equal to the number of
+                        non-zero singular values in the
+                        <span class="math">\(\Sigma\)</span> matrix.
+                      </li>
+                      <li>
+                        Orthogonality: The matrices
+                        <span class="math">\(A\)</span> and
+                        <span class="math">\(A^T\)</span> are both orthogonal
+                        matrices, meaning that their transposes are also their
+                        inverses. The matrix
+                        <span class="math">\(\Sigma\)</span> is a diagonal
+                        matrix.
+                      </li>
+                      <li>
+                        Pseudoinverse: The Moore-Penrose pseudoinverse (a form
+                        of SVD) can be used to compute the pseudoinverse of a
+                        matrix, which is a generalization of the inverse matrix
+                        to non-square matrices. The pseudoinverse can be used to
+                        solve linear equations that are not solvable using the
+                        standard inverse. The Moore-Penrose pseudoinverse is
+                        given by the equation:
+                        <span class="math">\[A^+ = V \Sigma^+ U^T\]</span>,
+                        where <span class="math">\(\Sigma^+\)</span> is obtained
+                        by taking the reciprocal of nonzero singular values in
+                        <span class="math">\(\Sigma\)</span> and transposing it.
+                        It provides the least-squares solution to
+                        underdetermined or overdetermined systems.
+                      </li>
+                      <li>
+                        Matrix Factorization: SVD can be used for matrix
+                        factorization, which is the process of representing a
+                        matrix as the product of two or more lower-dimensional
+                        matrices. This factorization can be useful for reducing
+                        the computational complexity of algorithms, improving
+                        the interpretability of the data, and discovering
+                        meaningful structure in the data.
+                      </li>
+                      <li>
+                        Low-Rank Approximations: SVD can be used to find
+                        low-rank approximations of matrices. The low-rank
+                        approximation is given by the equation:
+                        <span class="math"
+                          >\[A_k \approx U_k \Sigma_k V_k^T\]</span
+                        >This involves retaining only the top
+                        <span class="math">\(k\)</span> singular values and
+                        corresponding singular vectors, where
+                        <span class="math">\(k\)</span> is much smaller than the
+                        dimensions of the original matrix, it is possible to
+                        obtain a rank-<span class="math">\(k\)</span>
+                        approximation of the matrix (giving an optimal
+                        approximation under Frobenius norm) that captures most
+                        of its essential structure. This reduces the
+                        computational cost of SVD.
+                      </li>
+                      <li>
+                        Robustness: SVD is a robust technique that is not
+                        affected by outliers and is able to preserve the
+                        important information in the data. This makes it useful
+                        in fields such as image processing and data analysis,
+                        where outliers and noise are common.
+                      </li>
+                      <li>
+                        Computational complexity: The computational complexity
+                        of SVD for a <span class="math">\(m x n\)</span> matrix
+                        is <span class="math">\(O(\min(mn^2,m^2n))\)</span>.
+                      </li>
+                    </ol>
+                  </subsection>
+                  <subsection>
+                    <h2>Types of SVD</h2>
+                    <p>
+                      While the standard SVD decomposes a matrix into three
+                      components, different variations optimize for specific use
+                      cases, computational efficiency, or scalability. Below are
+                      the most important types of SVD:
+                    </p>
+                    <ol>
+                      <li>
+                        <b>Truncated SVD</b>
+                        <p>
+                          Truncated SVD is a variation of SVD that involves
+                          keeping only the top k singular values and
+                          corresponding singular vectors. This reduces the
+                          computational cost of SVD while retaining the most
+                          important information of the original matrix. It is
+                          important to note, that first it computes all the
+                          singular values of
+                          <span class="math">\(\Sigma\)</span>, and only then it
+                          selects the top
+                          <span class="math">\(k\)</span> components based on
+                          some pre-determined threshold. It is primarily used
+                          for dimensionality reduction, noise reduction, and
+                          feature extraction in text and image processing.
+                        </p>
+                      </li>
+                      <li>
+                        <b>Economical SVD</b>
+                        <p>
+                          The economical SVD (or compact SVD) is a variation of
+                          SVD that involves computing only the first k singular
+                          values and singular vectors directly, where k is much
+                          smaller than the dimensions of the original matrix.
+                          This reduces the computational cost of SVD for
+                          matrices with a large number of columns. It is
+                          important to note that although economical SVD sounds
+                          similar to Truncated SVD, they are not the same. Here,
+                          the sizes of the matrics
+                          <span class="math">\(U\)</span> and
+                          <span class="math">\(V\)</span> are reduced from
+                          <span class="math">\( m~x~m \)</span> to
+                          <span class="math">\(m~x~k\)</span> and
+                          <span class="math">\( n~x~n \)</span> to
+                          <span class="math">\(n~x~k\)</span> to avoid
+                          computation when
+                          <span class="math">\(m \neq n\)</span>. It is
+                          particularly useful for large-scale matrices, where
+                          memory efficiency is critical such as, data
+                          compression, NLP, recommendation systems, and large
+                          dataset analysis.
+                        </p>
+                      </li>
+                      <li>
+                        <b>Randomized SVD</b>
+                        <p>
+                          Randomized SVD is a variation of SVD that leverages
+                          probabilistic techniques, such as random projections,
+                          to approximate singular values faster than traditional
+                          methods. Instead of explicitly computing singular
+                          values, it estimates them using random sampling and
+                          Monte Carlo methods. It is particlarly useful for
+                          streaming data, recommender systems, topic modeling,
+                          graph embeddings and large-scale matrices where the
+                          standard SVD computation is computationally expensive.
+                        </p>
+                      </li>
+                      <li>
+                        <b>Extensions of SVD</b>
+                        <p>
+                          SVD has been extended to more complex data structures,
+                          such as tensors and graphs. Tensor SVD generalizes SVD
+                          to higher-dimensional tensors instead of 2D matrices.
+                          It is useful in computer vision, hyperspectral
+                          imaging, and deep learning. Graph SVD applies SVD to
+                          graph adjacency matrices for tasks such as community
+                          detection, link prediction, and spectral clustering.
+                        </p>
+                      </li>
+                    </ol>
+                  </subsection>
+                  <subsection>
+                    <h2>Applications of SVD</h2>
+                    <ol>
+                      <li>
+                        Dimensionality Reduction: SVD is often used for
+                        dimensionality reduction by keeping only the k largest
+                        singular values and corresponding singular vectors. This
+                        reduces the size of the data while retaining most of its
+                        important information.
+                      </li>
+                      <li>
+                        Image Processing: SVD is used in image processing for
+                        tasks such as image compression, denoising, and image
+                        restoration. By removing the low-rank components of the
+                        matrix (i.e., the small singular values and
+                        corresponding singular vectors), we can remove the noise
+                        from the data.
+                      </li>
+                      <li>
+                        Recommender Systems: In recommender systems, SVD is used
+                        to factorize the user-item interaction matrix into two
+                        low-rank matrices, which can then be used to make
+                        recommendations to users.
+                      </li>
+                      <li>
+                        Natural Language Processing: SVD is used in natural
+                        language processing for tasks such as text
+                        classification, sentiment analysis, and topic modeling.
+                      </li>
+                      <li>
+                        Latent Semantic Analysis: Latent semantic analysis is a
+                        method for analyzing the relationships between a set of
+                        documents and the terms they contain. SVD is used to
+                        factorize the term-document matrix into two low-rank
+                        matrices, which can then be used to identify the latent
+                        topics in the documents.
+                      </li>
+                    </ol>
+                  </subsection>
+                  <subsection>
+                    <h2>Connection with PCA</h2>
+                    <p>
+                      Unlike Eigenvalue Decomposiion, SVD applies to any matrix
+                      (even rectangular). For symmetric matrices
+                      <span class="math">\(A=A^T\)</span> the singular values of
+                      SVD are the absolute values of eigenvalues of
+                      <span class="math">\(A\)</span>. In general, PCA is
+                      typically implemented using SVD on the covariance matrix
+                      <span class="math">\(A^T A\)</span> rather than computing
+                      eigenvalues directly. The principal components correspond
+                      to the right singular vectors in
+                      <span class="math">\(V\)</span>.
+                    </p>
+                    <div class="bigcenterimgcontainer">
+                        <img src="img/pca.gif" alt style />
+                      </div>
+                  </subsection>
+                </section>
+                <section>
+                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+                  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+                </section>
+              </div>
+              <div class="col-md-4" id="toc-wrapper"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer id="footer" class="footer position-relative light-background">
+      <div class="container">
+        <div class="copyright text-center">
+          <p>
+            © <span>Copyright</span>
+            <strong class="px-1 sitename">Debanjan Saha</strong>
+            <span>All Rights Reserved</span>
+          </p>
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you've purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+          Designed by
+          <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by
+          <a href="https://themewagon.com">ThemeWagon</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scroll Top -->
+    <a
+      href="#"
+      id="scroll-top"
+      class="scroll-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <!-- jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="../../../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../../../assets/js/main.js"></script>
+
+    <script src="../../../../../assets/highlight/highlight.pack.js"></script>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+
+    <script src="../../../../../assets/js/footnotes.js"></script>
+    <script src="../../../../../assets/js/bootstrap-carousel.js"></script>
+    <script src="../../../../../assets/js/inlineDisqussions.js"></script>
+    <script src="../../../../../assets/js/toc.js"></script>
+
+    <script
+      type="text/javascript"
+      src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    ></script>
+
+    <noscript
+      >Enable JavaScript for footnotes, Disqus comments, and other cool
+      stuff.</noscript
+    >
+  </body>
+</html>
