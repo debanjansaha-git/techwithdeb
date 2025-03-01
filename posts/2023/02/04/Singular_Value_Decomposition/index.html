@@ -414,7 +414,6 @@ def svd_decomposition(A, tol=1e-10):
     S[:min_dim, :min_dim] = np.diag(singular_values[:min_dim])
 
     return U, S, V.T
-                        
                     </code></pre>
 
                     <p>The code can be broken down into the following steps</p>
@@ -456,7 +455,7 @@ def svd_decomposition(A, tol=1e-10):
 FUNCTION CALL:
 ==========================
                         
-A = np.array([[1, -2, 5], [-2, -3, 1], [3, 8, -3]])
+A = np.array([[1., -2., 5.], [2., 3., 1.], [3., 8., -3.]])
 U, S, Vt = svd_decomposition(A)
 # Print results
 print("U Matrix:\n", U)
@@ -468,17 +467,17 @@ OUTPUTS:
 ==========================
 
 U Matrix:
- [[-0.35768837 -0.92786632  0.10546623]
- [-0.34408499  0.23594347  0.90881032]
- [ 0.86813855 -0.28878154  0.40365911]]
+ [[-0.3489058  -0.84356273 -0.40824829]
+ [ 0.27369733 -0.50835333  0.81649658]
+ [ 0.89630046 -0.17314393 -0.40824829]]
 S Matrix:
- [[10.32550132  0.          0.        ]
- [ 0.          4.35854723  0.        ]
- [ 0.          0.          0.62216436]]
+ [[1.00570603e+01 0.00000000e+00 0.00000000e+00]
+ [0.00000000e+00 4.98553285e+00 0.00000000e+00]
+ [0.00000000e+00 0.00000000e+00 7.01884803e-08]]
 V Transposed Matrix:
- [[-0.28423775 -0.841871    0.4587615 ]
- [ 0.51992046  0.26668292  0.81151891]
- [ 0.80553809 -0.4691838  -0.3619046 ]]
+ [[-0.28710082 -0.86400071  0.41361321]
+ [ 0.47732133  0.24532702  0.84378848]
+ [ 0.83050435 -0.43967877 -0.34197238]]
 
 ==========================
 RECONSTRUCTION:
@@ -492,9 +491,213 @@ assert np.allclose(A.astype(float), -A_reconstructed)
 OUTPUTS:
 ==========================
 Reconstructed A:
- [[-1.  2. -5.]
- [ 2.  3. -1.]
- [-3. -8.  3.]]
+ [[-1.00000002  2.00000001 -4.99999999]
+ [-1.99999995 -3.00000003 -1.00000002]
+ [-3.00000002 -7.99999999  3.00000001]]
+                        </code></pre>
+                    <p>
+                      The code above computes a full-SVD using Eigenvalue
+                      decomposition, calculating all singular values and
+                      vectors. Another slight variation of SVD which computes
+                      the full set of singular values, but does not stores the
+                      unnecessary zeros is called Economical or Compact SVD.
+                      This leads to certain memory optimization, as the size of
+                      matrices reduces a bit. For instance, if
+                      <span class="math">\(A\)</span> is of shape
+                      <span class="math">\(m~x~n, m \gt n\)</span>, then full
+                      svd gives <span class="math">\(U = m~x~m\)</span>,
+                      <span class="math">\(\Sigma = m~x~n\)</span> and
+                      <span class="math">\(V^T =n~x~n\)</span>. Whereas
+                      economical SVD produces
+                      <span class="math">\(U = m~x~n\)</span>,
+                      <span class="math">\(\Sigma = n~x~n\)</span> and
+                      <span class="math">\(V^T =n~x~n\)</span>. It can be
+                      implemented in a very similar way as full SVD but using a
+                      masking to remove the zeros as:
+                    </p>
+                    <pre class="code-block"><code class="language-python">
+def economical_svd(A):
+    """ Compute the economical SVD (compact SVD) of matrix A without using np.linalg.svd """
+    m, n = A.shape
+
+    # Compute A^T * A
+    AtA = A.T @ A
+
+    # Compute eigenvalues & eigenvectors of A^T * A
+    eigvals, V = np.linalg.eigh(AtA)  # Using eigh since A^T A is symmetric
+
+    # Sort eigenvalues and eigenvectors in descending order
+    idx = np.argsort(eigvals)[::-1]  # Get indices of sorted eigenvalues
+    eigvals = eigvals[idx]
+    V = V[:, idx]
+
+    # Compute singular values (square root of eigenvalues)
+    S = np.sqrt(eigvals)
+
+    # Remove zero or negative singular values (numerical precision issue)
+    nonzero_mask = S > 1e-10  # Ignore near-zero singular values
+    S = S[nonzero_mask]
+    V = V[:, nonzero_mask]
+
+    # Compute U = A * V * S⁻¹
+    U = A @ V @ np.linalg.inv(np.diag(S))
+
+    return U, np.diag(S), V.T  # Economical SVD (Compact form)                            
+                        </code></pre>
+                    <p>
+                      This is also an expensive method as it has time-complexity of
+                      <span class="math">\(O(n^3)\)</span>. This might not
+                      always be feasible. We can compute the top
+                      <span class="math">\(k\)</span>-singular values without
+                      computing all the eigenvalues of
+                      <span class="math">\(A.A^T\)</span> or
+                      <span class="math">\(A^T.A\)</span>.  This method is
+                      called as Truncated SVD and can be implemented as below:
+                    </p>
+                    <pre class="code-block"><code class="language-python">
+def truncated_svd(A, k, tol=1e-10, max_iter=100):
+    """Computes Truncated SVD using Power Iteration"""
+    m, n = A.shape
+    U = np.zeros((m, k))
+    S = np.zeros((k, k))
+    V = np.zeros((n, k))
+
+    A_approx = A.copy() # Copy of A to iteratively deflate it
+
+    for i in range(k):
+        # Random initialization of a vector
+        v = np.random.rand(n, 1)
+        v /= np.linalg.norm(v)
+
+        # Power iteration to approximate top singular vector
+        for _ in range(max_iter):
+            Av = np.dot(A_approx, v)
+            u = Av / np.linalg.norm(Av)
+            AvT = np.dot(A_approx.T, u)
+            v_new = AvT / np.linalg.norm(AvT)
+
+            # Convergence check
+            if np.linalg.norm(v - v_new) < tol:
+                break
+            v = v_new
+
+        # Singular value estimation
+        sigma = np.linalg.norm(np.dot(A_approx, v))
+
+        # Store computed singular vector and value
+        U[:, i] = u.flatten()
+        S[i, i] = sigma
+        V[:, i] = v.flatten()
+
+        # Deflate A to remove extracted singular component
+        A_approx -= sigma * np.outer(u, v.T)
+
+    return U, S, V.T                    
+                    </code></pre>
+
+                    <p>The code can be broken down into the following steps</p>
+                    <ol>
+                      <li>
+                        We initialize matrices
+                        <span class="math">\(U (m~x~k)\)</span> stores the top
+                        <span class="math">\(k\)</span> left singular vectors,
+                        <span class="math">\(S (k~x~k)\)</span> stores the
+                        singular values in a diagonal matrix,
+                        <span class="math">\(k~x~k\)</span>, and
+                        <span class="math">\(V (n~x~k)\)</span> stores the top
+                        <span class="math">\(k\)</span> right singular vectors.
+                      </li>
+                      <li>
+                        We compute the top
+                        <span class="math">\(k\)</span> singular values and
+                        vectors iteratively. Each iteration finds one singular
+                        value and its corresponding singular vectors.
+                      </li>
+                      <li>
+                        We randomly initialize a right singular vector
+                        <span class="math">\(v\)</span> of size
+                        <span class="math">\((n, 1)\)</span>, and set it to have
+                        unit norm.
+                      </li>
+                      <li>
+                        Power iteration step:
+                        <ol>
+                          <li>
+                            Multiply <span class="math">\(A\)</span> with
+                            <span class="math">\(v\)</span> to get approximate
+                            left singular vector
+                            <span class="math">\(u\)</span>.
+                          </li>
+                          <li>
+                            Multiply <span class="math">\(A^T\)</span>
+                            with
+                            <span class="math">\(u\)</span> to refine
+                            <span class="math">\(v\)</span> .
+                          </li>
+                          <li>Normalize at each step to maintain unit norm.</li>
+                          <li>
+                            Repeat until convergence (i.e.,
+                            <span class="math">\(v\)</span>
+                            stops changing significantly)
+                          </li>
+                        </ol>
+                      </li>
+                      <li>
+                        S (representing <span class="math">\(\Sigma\)</span>) is
+                        a diagonal matrix of size
+                        <span class="math">\(k~x~k\)</span> containing the
+                        singular values.
+                      </li>
+                      <li>
+                        Finally, we approximate
+                        <span class="math">\(A\)</span> using
+                        <span class="math">\(U \Sigma V^T\)</span> to ensure
+                        correctness
+                      </li>
+                    </ol>
+                    <pre class="code-block"><code class="language-python">
+==========================
+FUNCTION CALL:
+==========================
+                        
+k = 2  # Compute only top 2 singular values/vectors
+U, S, Vt = truncated_svd(A, k)
+
+# Print results
+print("U Matrix:\n", U)
+print("S Matrix:\n", S)
+print("V Transposed Matrix:\n", Vt)
+
+==========================
+OUTPUTS:
+==========================
+
+U Matrix:
+ [[-0.3489058   0.84356273]
+ [ 0.27369733  0.50835333]
+ [ 0.89630046  0.17314393]]
+S Matrix:
+ [[10.05706032  0.        ]
+ [ 0.          4.98553285]]
+V Transposed Matrix:
+ [[ 0.28710082  0.86400071 -0.41361321]
+ [ 0.47732133  0.24532702  0.84378848]]
+
+==========================
+RECONSTRUCTION:
+==========================
+# Verify reconstruction
+A_approx = U @ S @ Vt
+print("\nApproximated A (Truncated):\n", A_approx)
+assert np.allclose(A.astype(float), -A_approx)
+
+==========================
+OUTPUTS:
+==========================
+Approximated A (Truncated):
+ [[ 1. -2.  5.]
+ [ 2.  3.  1.]
+ [ 3.  8. -3.]]
                         </code></pre>
                   </subsection>
                 </section>
