@@ -85,33 +85,33 @@
                   </p>
                   <div class="tag-container">
                     <span class="tag-item"
-                      ><a href="../../../../../posts/tags/neural_networks.html"
-                        >neural networks</a
+                      ><a href="../../../../../posts/tags/svd.html"
+                        >Singular Value Decomposition (SVD)</a
                       ></span
                     >
                     <span class="tag-item"
-                      ><a href="../../../../../posts/tags/deep_learning.html"
-                        >deep learning</a
+                      ><a href="../../../../../posts/tags/linear_algebra.html"
+                        >Linear Algebra</a
                       ></span
                     >
                     <span class="tag-item"
-                      ><a href="../../../../../posts/tags/transformers.html"
-                        >transformers</a
+                      ><a href="../../../../../posts/tags/matrix_factorization.html"
+                        >Matrix Factorization</a
                       ></span
                     >
                     <span class="tag-item"
-                      ><a href="../../../../../posts/tags/attention.html"
-                        >attention</a
+                      ><a href="../../../../../posts/tags/dimensionality_reduction.html"
+                        >Dimensionality Reduction</a
                       ></span
                     >
                     <span class="tag-item"
-                      ><a href="../../../../../posts/tags/nlp.html"
-                        >NLP</a
+                      ><a href="../../../../../posts/tags/recommendor_system.html"
+                        >Recommender Systems</a
                       ></span
                     >
                     <span class="tag-item"
                       ><a href="../../../../../posts/tags/machine_learning.html"
-                        >machine learning</a
+                        >Machine Learning</a
                       ></span
                     >
                     <span class="tag-item"
@@ -808,8 +808,109 @@ print("Vt shape:", Vt.shape)  # (10, 500)
                       </li>
                     </ol>
                   </subsection>
+                  <subsection>
+                    <h2>Limitations of SVD</h2>
+                    <p>
+                      While SVD is a powerful matrix factorization technique
+                      with applications in dimensionality reduction, PCA,
+                      recommendation systems, and latent semantic analysis, it
+                      has notable limitations:
+                    </p>
+                    <ol>
+                      <li>
+                        SVD assumes that the data can be represented in a linear
+                        subspace, and is not ideal for non-linear relationships
+                        in data, like in image processing or deep learning.
+                      </li>
+                      <li>
+                        SVD often tend to have cubic time complexity, which does
+                        not scale well with large datasets. It requires high
+                        computational resources.
+                      </li>
+                      <li>
+                        SVD is sensitive to noise in the data and can adversely
+                        affect applications like Latent Semantic Analysis (LSA)
+                        or PCA.
+                      </li>
+                      <li>
+                        SVD is not clearly interpretable. it's difficult to
+                        explain why certain user preferences in a recommendation
+                        system are clustered in specific singular vectors.
+                      </li>
+                      <li>
+                        If new data is added, the entire SVD has to be
+                        recomputed again. This is not ideal for real-world
+                        applications where new data is added every day. Other
+                        alternatives like Incremental SVD and Online SVD is more
+                        preferred in such scenarios.
+                      </li>
+                    </ol>
+                  </subsection>
                 </section>
                 <section>
+                  <subsection>
+                    <h2>Appendix - Linear Algebra</h2>
+
+                    <p>
+                      While we have been talking about SVD, it is quite
+                      important to have a very good grasp on various matrix
+                      factorization techniques. Some notable techniques also
+                      discussed in this article are:
+                    </p>
+                    <h3>QR Decomposiion</h3>
+                    <p>
+                      <a href="https://en.wikipedia.org/wiki/QR_decomposition">
+                        QR decomposition</a
+                      >
+                      factorizes a matrix <span class="math">\(A\)</span> into
+                      the product of an orthogonal matrix
+                      <span class="math">\(Q\)</span> and an upper triangular
+                      matrix <span class="math">\(R\)</span>:
+                      <span class="math">\[A = QR\]</span>
+                      where:
+                    </p>
+                    <ul>
+                      <li>
+                        <span class="math">\(Q\)</span> is an orthogonal matrix
+                        (i.e, <span class="math">\(Q^TQ = I\)</span> ), meaning
+                        its columns are orthonormal,
+                      </li>
+                      <li>
+                        <span class="math">\(R\)</span> is an upper triangular
+                        matrix.
+                      </li>
+                    </ul>
+                    <p>
+                      QR Decomposition can be computed using Householder
+                      reflections, Gram-Schmidt process or Givens rotations.
+                    </p>
+                    <h3>Schur Decomposition</h3>
+                    <p>
+                      <a
+                        href="https://en.wikipedia.org/wiki/Schur_decomposition"
+                      >
+                        Schur decomposition</a
+                      >
+                      factorizes a square matrix
+                      <span class="math">\(A\)</span> into unitary matrix
+                      <span class="math">\(Q\)</span> and an upper triangular
+                      matrix <span class="math">\(T\)</span>:
+                      <span class="math">\[A = QTQ^*\]</span>
+                      where:
+                    </p>
+                    <ul>
+                      <li>
+                        <span class="math">\(Q\)</span> is unitary (i.e,
+                        <span class="math">\(Q^*Q = I\)</span> ), meaning its
+                        columns form an orthonormal basis,
+                      </li>
+                      <li>
+                        <span class="math">\(T\)</span> is an upper triangular
+                        matrix, with eigenvalues of
+                        <span class="math">\(A\)</span> on its diagonal.
+                      </li>
+                    </ul>
+                  </subsection>
                   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
                   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
                 </section>
